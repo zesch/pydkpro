@@ -3,11 +3,11 @@
 ## demo example
 
 ```
-import demo as d
-mypipeline = d.Pipeline()
-mypipeline.add(d.Component(name='tokenizer', brand='clearnlp', language='en'))
-mypipeline.add(d.Component(name='pos_tagger', brand='stanford', language='en', variant='fast41'))
-mypipeline.run(d.Casobject('hello how are you'))
+from demo import *
+p = Pipeline()
+p.add(d.Component(name='tokenizer', brand='clearnlp', language='en'))
+p.add(d.Component(name='pos_tagger', brand='stanford', language='en', variant='fast41'))
+p.run('hello how are you')
 ````
 
 ## output
