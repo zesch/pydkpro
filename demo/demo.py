@@ -52,11 +52,8 @@ class Pipeline(object):
         self._pipeline_dict['components'].append(entity())
         return self
 
-    def run(self, entity):
-        if not isinstance(entity, Casobject):
-            raise TypeError('The added entity must be '
-                            'an instance of class Component or Casobject. '
-                            'Found: ' + str(entity))
+    def run(self, string):
+        entity = Casobject(string)
         self._pipeline_dict['payload'] = entity()
         self._check_format()
         return self._call_microservice()
