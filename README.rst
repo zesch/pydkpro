@@ -1,4 +1,5 @@
-#PyDKPro
+PyDKPro
+------------
 
 PyDKPro provides a pure-Python implementation of DKPro `https://dkpro.github.io/`
 as defined by the `UIMA <https://uima.apache.org>`_ framework and `dkpro-cassis <https://github.com/dkpro/dkpro-cassis>`_
