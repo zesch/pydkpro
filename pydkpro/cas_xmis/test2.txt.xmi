@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><xmi:XMI xmlns:pos="http:///de/tudarmstadt/ukp/dkpro/core/api/lexmorph/type/pos.ecore" xmlns:tcas="http:///uima/tcas.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:cas="http:///uima/cas.ecore" xmlns:tweet="http:///de/tudarmstadt/ukp/dkpro/core/api/lexmorph/type/pos/tweet.ecore" xmlns:morph="http:///de/tudarmstadt/ukp/dkpro/core/api/lexmorph/type/morph.ecore" xmlns:type3="http:///de/tudarmstadt/ukp/dkpro/core/api/frequency/tfidf/type.ecore" xmlns:type11="http:///de/tudarmstadt/ukp/dkpro/core/performance/type.ecore" xmlns:dependency="http:///de/tudarmstadt/ukp/dkpro/core/api/syntax/type/dependency.ecore" xmlns:type7="http:///de/tudarmstadt/ukp/dkpro/core/api/semantics/type.ecore" xmlns:type10="http:///de/tudarmstadt/ukp/dkpro/core/api/transform/type.ecore" xmlns:type="http:///de/tudarmstadt/ukp/dkpro/core/api/anomaly/type.ecore" xmlns:type9="http:///de/tudarmstadt/ukp/dkpro/core/api/syntax/type.ecore" xmlns:type4="http:///de/tudarmstadt/ukp/dkpro/core/api/metadata/type.ecore" xmlns:type5="http:///de/tudarmstadt/ukp/dkpro/core/api/ner/type.ecore" xmlns:type6="http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore" xmlns:type2="http:///de/tudarmstadt/ukp/dkpro/core/api/coref/type.ecore" xmlns:type8="http:///de/tudarmstadt/ukp/dkpro/core/api/structure/type.ecore" xmlns:constituent="http:///de/tudarmstadt/ukp/dkpro/core/api/syntax/type/constituent.ecore" xmlns:chunk="http:///de/tudarmstadt/ukp/dkpro/core/api/syntax/type/chunk.ecore" xmi:version="2.0">
+    <cas:NULL xmi:id="0"/>
+    <type4:DocumentMetaData xmi:id="1" sofa="12" begin="0" end="232" language="en" documentTitle="test2.txt" documentId="test2.txt" documentUri="file:/Users/paggarwal/github_repos/pydkpro/pydkpro/test_data/input/test2.txt" collectionId="file:/Users/paggarwal/github_repos/pydkpro/pydkpro/test_data/input/" documentBaseUri="file:/Users/paggarwal/github_repos/pydkpro/pydkpro/test_data/input/" isLastSegment="false"/>
+    <type6:Token xmi:id="19" sofa="12" begin="0" end="5" pos="739"/>
+    <type6:Token xmi:id="31" sofa="12" begin="6" end="10" pos="745"/>
+    <type6:Token xmi:id="43" sofa="12" begin="11" end="13" pos="751"/>
+    <type6:Token xmi:id="55" sofa="12" begin="14" end="15" pos="757"/>
+    <type6:Token xmi:id="67" sofa="12" begin="16" end="26" pos="763"/>
+    <type6:Token xmi:id="79" sofa="12" begin="27" end="29" pos="769"/>
+    <type6:Token xmi:id="91" sofa="12" begin="30" end="38" pos="775"/>
+    <type6:Token xmi:id="103" sofa="12" begin="39" end="49" pos="781"/>
+    <type6:Token xmi:id="115" sofa="12" begin="50" end="53" pos="787"/>
+    <type6:Token xmi:id="127" sofa="12" begin="54" end="61" pos="793"/>
+    <type6:Token xmi:id="139" sofa="12" begin="62" end="70" pos="799"/>
+    <type6:Token xmi:id="151" sofa="12" begin="71" end="81" pos="805"/>
+    <type6:Token xmi:id="163" sofa="12" begin="82" end="83" pos="811"/>
+    <type6:Token xmi:id="175" sofa="12" begin="83" end="86" pos="817"/>
+    <type6:Token xmi:id="187" sofa="12" begin="86" end="87" pos="823"/>
+    <type6:Token xmi:id="199" sofa="12" begin="88" end="93" pos="829"/>
+    <type6:Token xmi:id="211" sofa="12" begin="94" end="96" pos="835"/>
+    <type6:Token xmi:id="223" sofa="12" begin="97" end="100" pos="841"/>
+    <type6:Token xmi:id="235" sofa="12" begin="101" end="107" pos="847"/>
+    <type6:Token xmi:id="247" sofa="12" begin="108" end="112" pos="853"/>
+    <type6:Token xmi:id="259" sofa="12" begin="113" end="122" pos="859"/>
+    <type6:Token xmi:id="271" sofa="12" begin="122" end="123" pos="865"/>
+    <type6:Token xmi:id="288" sofa="12" begin="124" end="127" pos="871"/>
+    <type6:Token xmi:id="300" sofa="12" begin="128" end="132" pos="877"/>
+    <type6:Token xmi:id="312" sofa="12" begin="133" end="144" pos="883"/>
+    <type6:Token xmi:id="324" sofa="12" begin="144" end="145" pos="889"/>
+    <type6:Token xmi:id="336" sofa="12" begin="146" end="151" pos="895"/>
+    <type6:Token xmi:id="348" sofa="12" begin="152" end="155" pos="901"/>
+    <type6:Token xmi:id="360" sofa="12" begin="156" end="161" pos="907"/>
+    <type6:Token xmi:id="372" sofa="12" begin="162" end="166" pos="913"/>
+    <type6:Token xmi:id="384" sofa="12" begin="167" end="174" pos="919"/>
+    <type6:Token xmi:id="396" sofa="12" begin="174" end="175" pos="925"/>
+    <type6:Token xmi:id="413" sofa="12" begin="176" end="179" pos="931"/>
+    <type6:Token xmi:id="425" sofa="12" begin="180" end="185" pos="937"/>
+    <type6:Token xmi:id="437" sofa="12" begin="186" end="194" pos="943"/>
+    <type6:Token xmi:id="449" sofa="12" begin="194" end="195" pos="949"/>
+    <type6:Token xmi:id="461" sofa="12" begin="196" end="199" pos="955"/>
+    <type6:Token xmi:id="473" sofa="12" begin="200" end="203" pos="961"/>
+    <type6:Token xmi:id="485" sofa="12" begin="204" end="209" pos="967"/>
+    <type6:Token xmi:id="497" sofa="12" begin="210" end="214" pos="973"/>
+    <type6:Token xmi:id="509" sofa="12" begin="215" end="223" pos="979"/>
+    <type6:Token xmi:id="521" sofa="12" begin="224" end="231" pos="985"/>
+    <type6:Token xmi:id="533" sofa="12" begin="231" end="232" pos="991"/>
+    <type6:Sentence xmi:id="283" sofa="12" begin="0" end="123"/>
+    <type6:Sentence xmi:id="408" sofa="12" begin="124" end="175"/>
+    <type6:Sentence xmi:id="545" sofa="12" begin="176" end="232"/>
+    <type4:TagsetDescription xmi:id="550" sofa="12" begin="0" end="232" layer="de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS" name="ptb" tags="563 565 567 569 571 573 575 577 579 581 583 585 587 589 591 593 595 597 599 601 603 605 607 609 611 613 615 617 619 621 623 625 627 629 631 633 635 637 639 641 643 645 647 649 651 653 655 657 659 661 663 665 667 669 671 673 675 677" componentName="de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger" modelLocation="classpath:/de/tudarmstadt/ukp/dkpro/core/stanfordnlp/lib/tagger-en-fast.41.properties" modelVariant="fast.41" modelLanguage="en" modelVersion="20130730.1" input="false"/>
+    <pos:POS_PROPN xmi:id="739" sofa="12" begin="0" end="5" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="745" sofa="12" begin="6" end="10" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="811" sofa="12" begin="82" end="83" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="817" sofa="12" begin="83" end="86" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="823" sofa="12" begin="86" end="87" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="847" sofa="12" begin="101" end="107" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="853" sofa="12" begin="108" end="112" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="907" sofa="12" begin="156" end="161" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="913" sofa="12" begin="162" end="166" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="967" sofa="12" begin="204" end="209" PosValue="NNP"/>
+    <pos:POS_PROPN xmi:id="973" sofa="12" begin="210" end="214" PosValue="NNP"/>
+    <pos:POS_VERB xmi:id="751" sofa="12" begin="11" end="13" PosValue="VBZ"/>
+    <pos:POS_VERB xmi:id="829" sofa="12" begin="88" end="93" PosValue="VBN"/>
+    <pos:POS_VERB xmi:id="895" sofa="12" begin="146" end="151" PosValue="VB"/>
+    <pos:POS_VERB xmi:id="955" sofa="12" begin="196" end="199" PosValue="VB"/>
+    <pos:POS_DET xmi:id="757" sofa="12" begin="14" end="15" PosValue="DT"/>
+    <pos:POS_DET xmi:id="841" sofa="12" begin="97" end="100" PosValue="DT"/>
+    <pos:POS_DET xmi:id="901" sofa="12" begin="152" end="155" PosValue="DT"/>
+    <pos:POS_DET xmi:id="961" sofa="12" begin="200" end="203" PosValue="DT"/>
+    <pos:POS_NOUN xmi:id="763" sofa="12" begin="16" end="26" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="775" sofa="12" begin="30" end="38" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="781" sofa="12" begin="39" end="49" PosValue="NNS"/>
+    <pos:POS_NOUN xmi:id="799" sofa="12" begin="62" end="70" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="805" sofa="12" begin="71" end="81" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="859" sofa="12" begin="113" end="122" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="883" sofa="12" begin="133" end="144" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="919" sofa="12" begin="167" end="174" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="937" sofa="12" begin="180" end="185" PosValue="NN"/>
+    <pos:POS_NOUN xmi:id="943" sofa="12" begin="186" end="194" PosValue="NNS"/>
+    <pos:POS_NOUN xmi:id="979" sofa="12" begin="215" end="223" PosValue="NNS"/>
+    <pos:POS_NOUN xmi:id="985" sofa="12" begin="224" end="231" PosValue="NN"/>
+    <pos:POS_ADP xmi:id="769" sofa="12" begin="27" end="29" PosValue="IN"/>
+    <pos:POS_ADP xmi:id="787" sofa="12" begin="50" end="53" PosValue="IN"/>
+    <pos:POS_ADP xmi:id="835" sofa="12" begin="94" end="96" PosValue="IN"/>
+    <pos:POS_ADP xmi:id="871" sofa="12" begin="124" end="127" PosValue="IN"/>
+    <pos:POS_ADP xmi:id="931" sofa="12" begin="176" end="179" PosValue="IN"/>
+    <pos:POS_ADJ xmi:id="793" sofa="12" begin="54" end="61" PosValue="JJ"/>
+    <pos:POS_ADJ xmi:id="877" sofa="12" begin="128" end="132" PosValue="JJR"/>
+    <pos:POS_PUNCT xmi:id="865" sofa="12" begin="122" end="123" PosValue="."/>
+    <pos:POS_PUNCT xmi:id="889" sofa="12" begin="144" end="145" PosValue=","/>
+    <pos:POS_PUNCT xmi:id="925" sofa="12" begin="174" end="175" PosValue="."/>
+    <pos:POS_PUNCT xmi:id="949" sofa="12" begin="194" end="195" PosValue=","/>
+    <pos:POS_PUNCT xmi:id="991" sofa="12" begin="231" end="232" PosValue="."/>
+    <cas:Sofa xmi:id="12" sofaNum="1" sofaID="_InitialView" mimeType="text" sofaString="DKPro Core is a collection of software components for natural language processing (NLP) based on the Apache UIMA framework.&#10;For more information, visit the DKPro Core website.&#10;For usage examples, see the DKPro Core Examples project."/>
+    <type4:TagDescription xmi:id="563" name="#"/>
+    <type4:TagDescription xmi:id="565" name="$"/>
+    <type4:TagDescription xmi:id="567" name="''"/>
+    <type4:TagDescription xmi:id="569" name="("/>
+    <type4:TagDescription xmi:id="571" name=")"/>
+    <type4:TagDescription xmi:id="573" name=","/>
+    <type4:TagDescription xmi:id="575" name="."/>
+    <type4:TagDescription xmi:id="577" name=".$$."/>
+    <type4:TagDescription xmi:id="579" name=":"/>
+    <type4:TagDescription xmi:id="581" name="BES"/>
+    <type4:TagDescription xmi:id="583" name="CC"/>
+    <type4:TagDescription xmi:id="585" name="CD"/>
+    <type4:TagDescription xmi:id="587" name="DT"/>
+    <type4:TagDescription xmi:id="589" name="EX"/>
+    <type4:TagDescription xmi:id="591" name="FW"/>
+    <type4:TagDescription xmi:id="593" name="GW"/>
+    <type4:TagDescription xmi:id="595" name="HT"/>
+    <type4:TagDescription xmi:id="597" name="HVS"/>
+    <type4:TagDescription xmi:id="599" name="IN"/>
+    <type4:TagDescription xmi:id="601" name="JJ"/>
+    <type4:TagDescription xmi:id="603" name="JJR"/>
+    <type4:TagDescription xmi:id="605" name="JJS"/>
+    <type4:TagDescription xmi:id="607" name="LS"/>
+    <type4:TagDescription xmi:id="609" name="MD"/>
+    <type4:TagDescription xmi:id="611" name="NN"/>
+    <type4:TagDescription xmi:id="613" name="NNP"/>
+    <type4:TagDescription xmi:id="615" name="NNPS"/>
+    <type4:TagDescription xmi:id="617" name="NNS"/>
+    <type4:TagDescription xmi:id="619" name="O"/>
+    <type4:TagDescription xmi:id="621" name="PDT"/>
+    <type4:TagDescription xmi:id="623" name="POS"/>
+    <type4:TagDescription xmi:id="625" name="PRP"/>
+    <type4:TagDescription xmi:id="627" name="PRP$"/>
+    <type4:TagDescription xmi:id="629" name="PRP^VBP"/>
+    <type4:TagDescription xmi:id="631" name="RB"/>
+    <type4:TagDescription xmi:id="633" name="RBR"/>
+    <type4:TagDescription xmi:id="635" name="RBS"/>
+    <type4:TagDescription xmi:id="637" name="RP"/>
+    <type4:TagDescription xmi:id="639" name="RT"/>
+    <type4:TagDescription xmi:id="641" name="SYM"/>
+    <type4:TagDescription xmi:id="643" name="TD"/>
+    <type4:TagDescription xmi:id="645" name="TO"/>
+    <type4:TagDescription xmi:id="647" name="UH"/>
+    <type4:TagDescription xmi:id="649" name="URL"/>
+    <type4:TagDescription xmi:id="651" name="USR"/>
+    <type4:TagDescription xmi:id="653" name="VB"/>
+    <type4:TagDescription xmi:id="655" name="VBD"/>
+    <type4:TagDescription xmi:id="657" name="VBG"/>
+    <type4:TagDescription xmi:id="659" name="VBN"/>
+    <type4:TagDescription xmi:id="661" name="VBP"/>
+    <type4:TagDescription xmi:id="663" name="VBZ"/>
+    <type4:TagDescription xmi:id="665" name="VPP"/>
+    <type4:TagDescription xmi:id="667" name="WDT"/>
+    <type4:TagDescription xmi:id="669" name="WP"/>
+    <type4:TagDescription xmi:id="671" name="WP$"/>
+    <type4:TagDescription xmi:id="673" name="WRB"/>
+    <type4:TagDescription xmi:id="675" name="X"/>
+    <type4:TagDescription xmi:id="677" name="``"/>
+    <cas:View sofa="12" members="1 19 31 43 55 67 79 91 103 115 127 139 151 163 175 187 199 211 223 235 247 259 271 288 300 312 324 336 348 360 372 384 396 413 425 437 449 461 473 485 497 509 521 533 283 408 545 550 739 745 811 817 823 847 853 907 913 967 973 751 829 895 955 757 841 901 961 763 775 781 799 805 859 883 919 937 943 979 985 769 787 835 871 931 793 877 865 889 925 949 991"/>
+</xmi:XMI>

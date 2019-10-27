@@ -1,7 +1,7 @@
-# pydkpro
+# PyDKPro
 
 PyDKPro provides a pure-Python implementation of DKPro `https://dkpro.github.io/`
-as defined by the `UIMA <https://uima.apache.org>` framework and **dkpro-cassis** `https://github.com/dkpro/dkpro-cassis`
+as defined by the `UIMA <https://uima.apache.org>`_ framework and `dkpro-cassis <https://github.com/dkpro/dkpro-cassis>`_
 
 This library dynamically generates a pipeline of variety Linguistic Features available in **DKPro** and deploy pipeline at the server as `docker container <https://www.docker.com/>`_.
 
@@ -135,7 +135,7 @@ Output:
 
 .. code-block:: output
 
-{('5,000', 'CD'), ('known', 'VBN'), ('Its', 'PRP$'), ('of', 'IN'), ('games', 'NNS'), ('Middle', 'NNP'), ('discoveries', 'NNS'), ('board', 'NN'), ('is', 'VBZ'), ('years', 'NNS'), ('traced', 'VBN'), ('to', 'TO'), ('back', 'RB'), ('oldest', 'JJS'), ('Backgammon', 'NNP'), ('can', 'MD'), ('nearly', 'RB'), ('one', 'CD'), ('archeological', 'JJ'), ('history', 'NN'), ('in', 'IN'), ('East', 'NNP'), ('be', 'VB'), ('the', 'DT'), ('.', '.')}
+    {('5,000', 'CD'), ('known', 'VBN'), ('Its', 'PRP$'), ('of', 'IN'), ('games', 'NNS'), ('Middle', 'NNP'), ('discoveries', 'NNS'), ('board', 'NN'), ('is', 'VBZ'), ('years', 'NNS'), ('traced', 'VBN'), ('to', 'TO'), ('back', 'RB'), ('oldest', 'JJS'), ('Backgammon', 'NNP'), ('can', 'MD'), ('nearly', 'RB'), ('one', 'CD'), ('archeological', 'JJ'), ('history', 'NN'), ('in', 'IN'), ('East', 'NNP'), ('be', 'VB'), ('the', 'DT'), ('.', '.')}
 
 which can also be used for a further operation like the integration of chunk parser
 
@@ -229,7 +229,7 @@ Output:
 
     {'cricket', 'playing', 'I', 'like', '.'}
 
-** Working with documents*
+**Working with documents**
 
 DKPro provides the functionality to load documents in addition to strings. This feature can also be used by using PyDKPro as shown in the following example:
 
