@@ -1,0 +1,17 @@
+Oct 27, 2019 3:09:40 AM org.apache.uima.internal.util.XMLUtils createSaxTransformerFactory(614)
+WARNING: SAXTransformerFactory didn't recognize setting attribute http://javax.xml.XMLConstants/property/accessExternalDTD
+Oct 27, 2019 3:09:40 AM org.apache.uima.internal.util.XMLUtils createSaxTransformerFactory(621)
+WARNING: SAXTransformerFactory didn't recognize setting attribute http://javax.xml.XMLConstants/property/accessExternalStylesheet
+log4j:WARN No appenders could be found for logger (org.apache.uima.resource.metadata.TypeSystemDescription).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Oct 27, 2019 3:09:41 AM de.tudarmstadt.ukp.dkpro.core.api.io.ResourceCollectionReaderBase scan(422)
+INFO: Scanning [file:/Users/paggarwal/github_repos/pydkpro/pydkpro/test_data/temp.xmi]
+Oct 27, 2019 3:09:41 AM de.tudarmstadt.ukp.dkpro.core.api.io.ResourceCollectionReaderBase initialize(248)
+INFO: Found [1] resources to be read
+Oct 27, 2019 3:09:41 AM de.tudarmstadt.ukp.dkpro.core.api.io.ResourceCollectionReaderBase nextFile(347)
+INFO: 0 of 1: file:/Users/paggarwal/github_repos/pydkpro/pydkpro/test_data/temp.xmi
+Oct 27, 2019 3:09:42 AM org.apache.uima.internal.util.XMLUtils createSaxTransformerFactory(614)
+WARNING: SAXTransformerFactory didn't recognize setting attribute http://javax.xml.XMLConstants/property/accessExternalDTD
+Oct 27, 2019 3:09:42 AM org.apache.uima.internal.util.XMLUtils createSaxTransformerFactory(621)
+WARNING: SAXTransformerFactory didn't recognize setting attribute http://javax.xml.XMLConstants/property/accessExternalStylesheet
