@@ -58,7 +58,7 @@ To return all the tokens:
 
 .. code-block:: python
 
-    cas.get_string_tokens()
+    cas.get_token_strings()
 
 Output:
 
@@ -179,7 +179,7 @@ In the following example, tokenization is performed using NLTK tweet tokenizer, 
     cas = p.run(cas)
 
     # get tokens
-    cas.get_tokens()
+    cas.get_token_strings()
 
     # get pos tags
     cas.get_postags()
@@ -193,7 +193,7 @@ A single component can also be run without the need to build a pipeline first:
 
     tokenizer = Component(type='tokenizer')
     cas = tokenizer.run('I like playing cricket.')
-    cas.get_tokens()
+    cas.get_token_strings()
 
 Output:
 
@@ -223,7 +223,7 @@ Pipelines can also be directly run on text documents:
 .. code-block:: python
 
     cas = p.run(file2str('test_data/input/test2.txt'))
-    cas.get_tokens()
+    cas.get_token_strings()
     cas.get_postags()
 
 **Working with multiple text documents**
@@ -237,4 +237,4 @@ Multiple documents can also be processed by providing documents path and documen
         p.run(file2str(doc))
 
     p.finalize()
-        
+
