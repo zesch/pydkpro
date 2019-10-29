@@ -1,244 +1,240 @@
-# PyDKPro
+PyDKPro
+------------
 
-PyDKPro provides a pure-Python implementation of DKPro `https://dkpro.github.io/`
-as defined by the `UIMA <https://uima.apache.org>`_ framework and `dkpro-cassis <https://github.com/dkpro/dkpro-cassis>`_
+PyDKPro provides a Python wrapper for the `DKPro Core <https://dkpro.github.io/dkpro-core/>`_ NLP framework.
+DKPro itself is based on the `UIMA <https://uima.apache.org>`_ framework and programmed in Java.
+Interoperability is achieved via web services deployed as `docker container <https://www.docker.com/>`_.
 
-This library dynamically generates a pipeline of variety Linguistic Features available in **DKPro** and deploy pipeline at the server as `docker container <https://www.docker.com/>`_.
+Analysis results in DKPro Core are represented as CAS objects.
+Conversion between Java and Python data structures is based on `dkpro-cassis <https://github.com/dkpro/dkpro-cassis>`_
+We also provide built-in support for `spacy <https://spacy.io>`_ format and `NLTK <https://www.nltk.org>`_) format
+allowing for seamless integration.
 
-This library also provide room for integration of Python-based Natural Language Processing (e.g.
-`spacy <https://spacy.io>`_ or `NLTK <https://www.nltk.org>`_) and Machine Learning libraries (e.g.
-`scikit-learn <https://scikit-learn.org/stable/>`_ or `Keras <https://keras.io>`_) in UIMA-based text analysis workflows.
 
+PyDKPro is still under heavy development. Feedback is highly appreciated.
 
 Features
 ------------
 
-Currently working on features which are still under development, e.g.:
-
-- Dynamically building of **DkPro** java-based pipeline.
-- Deserializing/ serializing documents into cas objects.
-- Deserializing/serializing type systems from/to XML
-- Data structures are compatible with spacy and NLTK.
-- Multiple documents processing.
-- Direct DKPro component usage.
-- Type system can be changed after loading
-- Reference, array, and list features
+- Using DKPro Core components directly in Python
+- Conversion to spaCy
+- Conversion to NLTK
 
 
 Usage
 -----
 
+**Defining an NLP pipeline**
 
-**Building linguistic pipeline**
 
-
-Linguistic Pipeline can be created by adding available DKPro core natural language processing components, for example, tokenizer, pos tagger, ner, etc and triggered to create docker container web service.
+A pipeline is build by adding DKPro Core components.
 
 .. code-block:: python
 
-    from pydkpro import *
+    from pydkpro import Pipeline, Component
+
     p = Pipeline()
-    p.add(Component(name='tokenizer', brand='clearnlp', language='en'))
-    p.add(Component(name='pos_tagger', brand='stanford', language='en', variant='fast41'))
-    p.trigger()
+    p.add(Component(type='tokenizer', name='clearnlp', modelArtifact='clearnlp-model-segmenter-en-default',
+                      language='en'))
+    p.add(Component(type='pos_tagger', name='stanfordnlp', modelArtifact='stanfordnlp-model-tagger-en-fast.41',
+                        printTagSet='false', language='en'))
+    p.build()
+
+Note: while defining components, except parameter 'type', the rest of the parameters are optional.
+
+
+**Run the pipeline**
+
+
+For the triggered pipeline above, a CAS object will be generated for the provided string.
+This CAS object can be used to retrieve annotations like tokens and POS tags, etc.
+
+.. code-block:: python
+
+
+    cas = p.run('Backgammon is one of the oldest known board games.')
+
+To return all the tokens:
+
+.. code-block:: python
+
+    cas.get_string_tokens()
 
 Output:
 
 .. code-block:: output
 
-    Pipeline build!
+    ['Backgammon', 'is', 'one', 'of', 'the', 'oldest', 'known', 'board', 'games', '.']
 
-
-
-**Generate annotations for the provided natural language string**
-
-
-For the triggered pipeline above, Cas object will be generated for the provided string. This cas object can be be used to retrieve annotations like tokens and pos tags, etc.
+To return all the pos tags:
 
 .. code-block:: python
 
-    text = 'Backgammon is one of the oldest known board games. Its history can be traced back nearly 5,000 years to archeological discoveries in the Middle East.'
-    mycas = p.run(text)
-
-To return all the tokens (for clearnlp tokenizer)
-
-.. code-block:: python
-
-    mycas.get_tokens()
+    cas.get_pos()
 
 Output:
 
 .. code-block:: output
 
-   {'in', 'the', 'archeological', 'discoveries', 'can', 'back', 'Backgammon', 'traced', 'known', 'be', 'to', 'oldest', 'East', '5,000', 'of', 'history', 'is', 'nearly', 'Its', '.', 'years', 'board', 'Middle', 'one', 'games'}
+    ['NNP', 'VBZ', 'NN', 'IN', 'DT', 'JJS', 'VBN', 'NN', 'NNS', '.']
 
-To return all the pos tags (for Stanford fast.41 pos tagger)
+**Provide IBM UIMA Cas functionality**
 
-.. code-block:: python
-
-    mycas.get_postags()
-
-Output:
-
-.. code-block:: output
-
-    {('5,000', 'CD'), ('known', 'VBN'), ('Its', 'PRP$'), ('of', 'IN'), ('games', 'NNS'), ('Middle', 'NNP'), ('discoveries', 'NNS'), ('board', 'NN'), ('is', 'VBZ'), ('years', 'NNS'), ('traced', 'VBN'), ('to', 'TO'), ('back', 'RB'), ('oldest', 'JJS'), ('Backgammon', 'NNP'), ('can', 'MD'), ('nearly', 'RB'), ('one', 'CD'), ('archeological', 'JJ'), ('history', 'NN'), ('in', 'IN'), ('East', 'NNP'), ('be', 'VB'), ('the', 'DT'), ('.', '.')}
-
-**Compatibility with spacy**
-
-Generated Cas objects can also be typecast to the spacy usable type system.
+Generated cas object also provide IBM UIMA cas functionality. For example:
 
 .. code-block:: python
 
-    casToSpacy = mycas.to_spacy()
-    for token in casToSpacy:
+
+    # add annotation
+    from pydkpro import Cas
+    from cassis import Typesystem
+    cas = Cas()
+    Token = Typesystem(type_system='typesystem/TypeSystem.xml').get_type('cassis.Token')
+
+    tokens = [
+        Token(begin=0, end=1, id='0', pos='NNP'),
+        Token(begin=2, end=6, id='1', pos='VBD'),
+        Token(begin=7, end=12, id='2', pos='IN'),
+        Token(begin=13, end=14, id='3', pos='.'),
+    ]
+    for token in tokens:
+        cas.add_annotation(token)
+
+    # select annotation
+    s_type = 'cassis.Sentence'
+    t_type = 'cassis.Token'
+    for sentence in cas.select(s_type):
+        for tok in cas.select_covered('cassis.Token', sentence):
+            print(tok.pos)
+
+**Conversion from CAS to spaCy format**
+
+Generated CAS objects can also be typecast to the spaCy type system.
+
+.. code-block:: python
+
+    for token in cas.to_spacy():
         print(token.text, token.tag_)
 
-Output:
 
-.. code-block:: output
 
-    Backgammon  NNP
-    is  VBZ
-    one  CD
-    of  IN
-    the  DT
-    oldest  JJS
-    known  VBN
-    board  NN
-    so on....
 
-Spacy span can also be created using Cas type-casted spacy objects.
+**Conversion from CAS to NLTK format**
+
+NLTK returns a specific format for each type of preprocessing.
+Here is an example for POS:
 
 .. code-block:: python
 
-   span = casToSpacy[2:8]
-   span.text
-
-Output:
-
-.. code-block:: output
-
-    'one of the oldest known board'
-
-**Compatibility with NLTK**
-
-As NLTK hasn't specific type-system like Cas or spacy doc. It produces a generic type system depends upon the components. For example:
-
-.. code-block:: python
-
-    casToNltk = mycas.to_nltk_pos_tagger()
-    print(casToNltk)
+    print(cas.to_nltk_tagger())
 
 
 Output:
 
 .. code-block:: output
 
-    {('5,000', 'CD'), ('known', 'VBN'), ('Its', 'PRP$'), ('of', 'IN'), ('games', 'NNS'), ('Middle', 'NNP'), ('discoveries', 'NNS'), ('board', 'NN'), ('is', 'VBZ'), ('years', 'NNS'), ('traced', 'VBN'), ('to', 'TO'), ('back', 'RB'), ('oldest', 'JJS'), ('Backgammon', 'NNP'), ('can', 'MD'), ('nearly', 'RB'), ('one', 'CD'), ('archeological', 'JJ'), ('history', 'NN'), ('in', 'IN'), ('East', 'NNP'), ('be', 'VB'), ('the', 'DT'), ('.', '.')}
+    [('Backgammon', 'NNP'), ('is', 'VBZ'), ('one', 'CD'), ('of', 'IN'), ('the', 'DT'), ('oldest', 'JJS'), ('known', 'VBN'), ('board', 'NN'), ('games', 'NNS'), ('.', '.')]
 
-which can also be used for a further operation like the integration of chunk parser
+This output can then be used for further integration with other NLTK components:
 
 .. code-block:: python
 
     import nltk
     chunkGram = r"""Chunk: {<RB.?>*<VB.?>*<NNP>}"""
     chunkParser = nltk.RegexpParser(chunkGram)
-    chunked = chunkParser.parse(casToNltk)
+    chunked = chunkParser.parse(cas.to_nltk_pos_tagger())
     print(chunked)
 
 Output:
 
 .. code-block:: output
 
-    (S
-  5,000/CD
-  known/VBN
-  Its/PRP$
-  of/IN
-  games/NNS
-  (Chunk Middle/NNP)
-  discoveries/NNS
-  board/NN
-  is/VBZ
-  years/NNS
-  traced/VBN
-  to/TO
-  back/RB
-  oldest/JJS
+  (S
   (Chunk Backgammon/NNP)
-  can/MD
-  nearly/RB
+  is/VBZ
   one/CD
-  archeological/JJ
-  history/NN
-  in/IN
-  (Chunk East/NNP)
-  be/VB
+  of/IN
   the/DT
+  oldest/JJS
+  known/VBN
+  board/NN
+  games/NNS
   ./.)
 
-PyDKPro also provides reverse functionality where Cas object can get annotation generated by other libraries like spacy or NLTK. In the following example, tokenization is performing using NLTK tweet tokenizer but pos tagging annotation is done by DKPro Stanford fast.41 component:
+**Conversion from spaCy or NLTK to PyDKPro**
+
+PyDKPro also provides reverse functionality where a CAS object can be created from spaCy or NLTK output.
+In the following example, tokenization is performed using NLTK tweet tokenizer, but POS tagging is done with the DKPro wrapper of Stanford CoreNLP POS tagger using their fast.41 model:
 
 .. code-block:: python
 
-    p2 = Pipeline()
-    p2.add(Component(name='pos_tagger', brand='stanford', language='en', variant='fast41'))
-    p2.trigger()
+    p = Pipeline()
+    p.add(Component(type='pos_tagger'))
+    p.build()
+
     from nltk.tokenize import TweetTokenizer
-    tknzr = TweetTokenizer()
-    mycas2 = Cas()
-    for token in tknzr.tokenize('Backgammon is one of the oldest known board games.'):
-        mycas2.add_token(token)
-    nltkTokenizedCas = p2.run(mycas2)
+    cas = Cas()
+    for token in TweetTokenizer().tokenize('Backgammon is one of the oldest known board games.'):
+        cas.add_token(token)
+    cas = p.run(cas)
 
     # get tokens
-    nltkTokenizedCas.get_tokens()
-
-Output:
-
-.. code-block:: output
-
-    {'board', 'of', 'Backgammon', 'is', 'known', 'the', '.', 'one', 'oldest', 'games'}
-
-.. code-block:: python
+    cas.get_tokens()
 
     # get pos tags
-    nltkTokenizedCas.get_postags()
+    cas.get_postags()
+
+
+**Shortcut for running single components**
+
+A single component can also be run without the need to build a pipeline first:
+
+.. code-block:: python
+
+    tokenizer = Component(type='tokenizer')
+    cas = tokenizer.run('I like playing cricket.')
+    cas.get_tokens()
 
 Output:
 
 .. code-block:: output
 
-    {('one', 'NN'), ('Backgammon', 'NNP'), ('games', 'NNS'), ('.', '.'), ('known', 'VBN'), ('one', 'CD'), ('board', 'NN'), ('is', 'VBZ'), ('the', 'DT'), ('of', 'IN'), ('oldest', 'JJS')}
+    ['I', 'like', 'playing', 'cricket', '.']
 
-** Working with single Component**
+**Working with list of strings**
 
-PyDKPro also provides the functionality of using a single component of the DKPro library. Following example display the usage:
-
-
-.. code-block:: python
-
-    dkpro_clearnlp_tokenizer = Component(name='tokenizer', brand='clearnlp', language='en')
-    tokenizer_cas = dkpro_clearnlp_tokenizer.run('I like playing cricket.')
-    tokenizer_cas.get_tokens()
-
-Output:
-
-.. code-block:: output
-
-    {'cricket', 'playing', 'I', 'like', '.'}
-
-**Working with documents**
-
-DKPro provides the functionality to load documents in addition to strings. This feature can also be used by using PyDKPro as shown in the following example:
+Multiple strings in the form of list can also be processed, where each element of list will be considered as
+document.
 
 .. code-block:: python
 
-    cas_doc = p.run('test_data/input/test2.txt')
-    # get tokens
-    cas_doc.get_tokens()
+    str_list = ['Backgammon is one of the oldest known board games.', 'I like playing cricket.']
+    for str in str_list:
+        cas = p.run(str)
+        cas.get_token_strings() # do something with the CAS
 
-    # get pos tags
-    cas_doc.get_postags()
+    # trigger collectionProcessComplete
+    p.finalize()
 
+**Working with text documents**
+
+Pipelines can also be directly run on text documents:
+
+.. code-block:: python
+
+    cas = p.run(file2str('test_data/input/test2.txt'))
+    cas.get_tokens()
+    cas.get_postags()
+
+**Working with multiple text documents**
+
+Multiple documents can also be processed by providing documents path and document name matching patterns
+
+.. code-block:: python
+    # documents available at different path can be provided in list
+    docs = ['test_data/input/1.txt', 'test_data/input/2.txt']
+    for doc in docs:
+        p.run(file2str(doc))
+
+    p.finalize()
+        
