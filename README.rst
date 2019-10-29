@@ -231,6 +231,7 @@ Pipelines can also be directly run on text documents:
 Multiple documents can also be processed by providing documents path and document name matching patterns
 
 .. code-block:: python
+
     # documents available at different path can be provided in list
     docs = ['test_data/input/1.txt', 'test_data/input/2.txt']
     for doc in docs:
