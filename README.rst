@@ -37,7 +37,7 @@ Usage
 
 A pipeline is build by adding DKPro Core components.
 
-**REC:** How can I know which components exist and what I need to fill in for type/name? 
+**REC:** How can I know which components exist and what I need to fill in for type/name?
 
 **REC:** Normally, DKPro Core components have a name `ClearNlpTokenizer` - the 'tool' is internal and not fully standardized across different modules. I would not recommend splitting into `type` and `name`. In any case `type` clashes with the concept of an annotation "type". The model artifacts in turn are standardized and the variables `variant` and `language` should be used. Specifying an artifact directly is possible but should not be the default. If It is done, it should include groupId and version as well.
 
@@ -77,7 +77,7 @@ To return all the tokens:
 .. code-block:: python
 
     cas.get_token_strings()
-    
+
 **REC:** I'm not paricularly convinced of such convenience methods. I'd rather see the CAS select API be nicer, e.g. `cas.select(TOKEN).as_text()`.
 
 Output:
@@ -114,7 +114,7 @@ Generated cas object also provide UIMA CAS functionality. For example:
 
     from pydkpro import DKProCoreTypeSystem
     from cassis import Cas
-    
+
     cas = Cas(DKProCoreTypeSystem())
 
 The effect of this "initializer" (here `DKProCoreTypeSystem()`) would be that it adds the convenience methods. It would also allow people with other type systems to nicely use Cassis with their types systems. It would even for the first time ever in UIMA allow a cross-type-system convenience API to be established!
@@ -153,7 +153,7 @@ Generated CAS objects can also be typecast to the spaCy type system.
     for token in cas.to_spacy():
         print(token.text, token.tag_)
 
-**REC:** Having the converter is great, but IMHO it should be kept separately from the CAS object: `to_spacy(cas)` and `cas = from_spacy(doc)`. 
+**REC:** Having the converter is great, but IMHO it should be kept separately from the CAS object: `to_spacy(cas)` and `cas = from_spacy(doc)`.
 
 
 **Conversion from CAS to NLTK format**
@@ -261,8 +261,9 @@ document.
 
     # trigger collectionProcessComplete
     p.finalize()
-    
+
 **REC:** Call it `p.collection_process_complete()`?
+**TZ:** p.finish() and p.collection_process_complete() as a synonym
 
 **Working with text documents**
 
@@ -286,4 +287,3 @@ Multiple documents can also be processed by providing documents path and documen
         p.run(file2str(doc))
 
     p.finalize()
-
