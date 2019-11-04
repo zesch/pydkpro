@@ -37,6 +37,8 @@ Usage
 
 A pipeline is build by adding DKPro Core components.
 
+**REC:** How to tell/choose which version of DKPro Core is being used?
+
 **REC:** How can I know which components exist and what I need to fill in for type/name?
 
 **REC:** Normally, DKPro Core components have a name `ClearNlpTokenizer` - the 'tool' is internal and not fully standardized across different modules. I would not recommend splitting into `type` and `name`. In any case `type` clashes with the concept of an annotation "type". The model artifacts in turn are standardized and the variables `variant` and `language` should be used. Specifying an artifact directly is possible but should not be the default. If It is done, it should include groupId and version as well.
