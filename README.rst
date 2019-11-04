@@ -54,6 +54,8 @@ A pipeline is build by adding DKPro Core components.
 
 Note: while defining components, except parameter 'type', the rest of the parameters are optional.
 
+**REC:** What does the `build()` call actually do / return?
+
 **REC:** I see how you would like to abstract the choice of the actual implementation away. I would recommend using `tool='segmenter'` here and providing a list somewhere what the tool names and the default implementations for the different tools are. Try sticking to established DKPro Core nomenclature (tool, variant, language, etc.).
 
 
@@ -106,9 +108,18 @@ Generated cas object also provide UIMA CAS functionality. For example:
 
 **REC:** This is confusing - why use `cassis.Token` and not the DKPro Core token?
 
+**REC:** Instead of having a CAS implementation in pydkpro which adds convenience methods like `get_pos()`, I'd suggest to add a parameter to the Cassis CAS constructor by which an "initializer" can be specified, e.g.
+
 .. code-block:: python
+    from pydkpro import DKProCoreTypeSystem
+    from cassis import Cas
+    
+    cas = Cas(DKProCoreTypeSystem())
+
+The effect of this "initializer" (here `DKProCoreTypeSystem()`) would be that it adds the convenience methods. It would also allow people with other type systems to nicely use Cassis with their types systems. It would even for the first time ever in UIMA allow a cross-type-system convenience API to be established!
 
 
+.. code-block:: python
     # add annotation
     from pydkpro import Cas
     from cassis import Typesystem
@@ -130,6 +141,7 @@ Generated cas object also provide UIMA CAS functionality. For example:
     for sentence in cas.select(s_type):
         for tok in cas.select_covered('cassis.Token', sentence):
             print(tok.pos)
+
 
 **Conversion from CAS to spaCy format**
 
