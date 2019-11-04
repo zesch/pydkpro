@@ -100,7 +100,7 @@ Output:
 
 **Provide UIMA CAS functionality**
 
-Generated cas object also provide IBM UIMA cas functionality. For example:
+Generated cas object also provide UIMA CAS functionality. For example:
 
 **REC:** It would be great if we could avoid having two implementations of the CAS, one in your project and one in Cassis. Let's rather try improving the API in Cassis.
 
