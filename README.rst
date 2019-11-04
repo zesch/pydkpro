@@ -111,6 +111,7 @@ Generated cas object also provide UIMA CAS functionality. For example:
 **REC:** Instead of having a CAS implementation in pydkpro which adds convenience methods like `get_pos()`, I'd suggest to add a parameter to the Cassis CAS constructor by which an "initializer" can be specified, e.g.
 
 .. code-block:: python
+
     from pydkpro import DKProCoreTypeSystem
     from cassis import Cas
     
@@ -118,8 +119,8 @@ Generated cas object also provide UIMA CAS functionality. For example:
 
 The effect of this "initializer" (here `DKProCoreTypeSystem()`) would be that it adds the convenience methods. It would also allow people with other type systems to nicely use Cassis with their types systems. It would even for the first time ever in UIMA allow a cross-type-system convenience API to be established!
 
-
 .. code-block:: python
+
     # add annotation
     from pydkpro import Cas
     from cassis import Typesystem
