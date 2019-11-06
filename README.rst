@@ -1,7 +1,7 @@
 PyDKPro
 ------------
 
-**REC:** If it is a wrapper for "DKPro Core", then IMHO it should be "PyDKProCore" because DKPro is larger than DKPro Core.
+**REC:** If it is a wrapper for "DKPro Core", then IMHO it should be "PyDKProCore" because DKPro is larger than DKPro Core. But in fact, I would suggest to think of a name that can work nicely without "DKPro", e.g. "Pypeline" or "Pyper" or something completely random - "Maryo" because Mario is a famous plumber and you do plumbing of pipelines in pYthon here, ... etc. - and then as an "afterthought" add the "DKPro" brand -> "DKPro Pyper", "DKPro Maryo", etc. We get a lot of confusion about whawt "DKPro" is and that it is a different thing than "DKPro Core". Having more emancipated names for the DKPro products could alleviate this problem.
 
 PyDKPro provides a Python wrapper for the `DKPro Core <https://dkpro.github.io/dkpro-core/>`_ NLP framework.
 DKPro Core itself is based on the `UIMA <https://uima.apache.org>`_ framework and programmed in Java.
