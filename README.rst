@@ -85,8 +85,8 @@ To return all the tokens:
 
 .. code-block:: python
 
-    TOKEN = 'cassis.Token'
-    cas.select(TOKEN).as_text()
+    from pydkpro import DKProCoreTypeSystem as dts
+    cas.select(dts.Token).as_text()
 
 .. **REC:** I'm not paricularly convinced of such convenience methods. I'd rather see the CAS select API be nicer, e.g. `cas.select(TOKEN).as_text()`.
 
@@ -100,7 +100,7 @@ To return all the pos tags:
 
 .. code-block:: python
 
-    cas.select(TOKEN).get_pos()
+    cas.select(dts.Token).get_pos()
 
 .. **REC:** See above.
 
@@ -132,8 +132,7 @@ Output:
 .. code-block:: python
 
     # add annotation
-    from pydkpro import DKProCoreTypeSystem as dts
-    from cassis import Cas, Typesystem
+    from cassis import Cas
 
     cas = Cas(dts())
 
@@ -147,10 +146,8 @@ Output:
         cas.add_annotation(token)
 
     # select annotation
-    s_type = 'cassis.Sentence'
-    t_type = 'cassis.Token'
-    for sentence in cas.select(s_type):
-        for tok in cas.select_covered('cassis.Token', sentence):
+    for sentence in cas.select(dts.Sentence):
+        for tok in cas.select_covered(dts.Token, sentence):
             print(tok.pos)
 
 
@@ -175,7 +172,7 @@ Generated CAS objects can also be typecast to the spaCy type system.
     nlp = spacy.load("en_core_web_sm")
     doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
     cas = from_spacy(doc):
-    print(cas.select(TOKEN).get_pos())
+    print(cas.select(dts.Token).get_pos())
 
 
 **Conversion from CAS to NLTK format**
@@ -241,10 +238,10 @@ In the following example, tokenization is performed using NLTK tweet tokenizer, 
     cas = p.process(cas)
 
     # get tokens
-    cas.select(TOKEN).as_text()
+    cas.select(dts.Token).as_text()
 
     # get pos tags
-    cas.select(TOKEN).get_pos()
+    cas.select(dts.Token).get_pos()
 
 .. **REC: Above it as `get_pos()`...?
 
@@ -257,7 +254,7 @@ A single component can also be run without the need to build a pipeline first:
 
     tokenizer = Component.ClearNlpSegmenter()
     cas = tokenizer.process('I like playing cricket.')
-    cas.select(TOKEN).as_text()
+    cas.select(dts.Token).as_text()
 
 .. **REC:** call it `process` instead of `run` to stay in line with UIMA naming conventions.
 
@@ -277,10 +274,10 @@ document.
     str_list = ['Backgammon is one of the oldest known board games.', 'I like playing cricket.']
     for str in str_list:
         cas = p.process(str)
-        cas.select(TOKEN).as_text() # do something with the CAS
+        cas.select(dts.Token).as_text() # do something with the CAS
 
     # trigger collectionProcessComplete
-    p.finalize()
+    p.finish()
 
 .. **REC:** Call it `p.collection_process_complete()`?
 .. **TZ:** p.finish() and p.collection_process_complete() as a synonym
@@ -292,8 +289,8 @@ Pipelines can also be directly run on text documents:
 .. code-block:: python
 
     cas = p.process(file2str('test_data/input/test2.txt'))
-    cas.select(TOKEN).as_text()
-    cas.select(TOKEN).get_pos()
+    cas.select(dts.Token).as_text()
+    cas.select(dts.Token).get_pos()
 
 **Working with multiple text documents**
 
@@ -306,4 +303,4 @@ Multiple documents can also be processed by providing documents path and documen
     for doc in docs:
         p.process(file2str(doc))
 
-    p.finalize()
+    p.finish()
