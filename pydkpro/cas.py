@@ -6,13 +6,19 @@ from cassis import load_typesystem, load_cas_from_xmi
 from spacy.tokens import Doc, Span
 from spacy.attrs import POS, HEAD, DEP
 from spacy.vocab import Vocab
+from pydkpro.typesystems import Tok
 import codecs
 import subprocess
 import shlex
 import os
 
 class Cas(object):
-    def __init__(self, cas_path=None, type_system_path='pydkpro/typesystems/temp_TypeSytems.xml', token_type='de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token'):
+    def __init__(self, args='object',
+                 text = ['Backgammon', 'is', 'one', 'of', 'the', 'oldest', 'known', 'board', 'games', '.'],
+                 cas_path=None, type_system_path='../pydkpro/typesystems/temp_TypeSytems.xml',
+                 token_type='de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token'):
+        self.args = args
+        self.text = text
         self.cas_path = cas_path
         self.type_system_path = type_system_path
         self.token_type = token_type
@@ -26,6 +32,7 @@ class Cas(object):
             self.cas = cs(typesystem = self.typesystem)
             self.cas.sofa_mime = "text/plain"
             self.cas.sofa_string = ""
+        #print('I am called')
 
     def add_token(self, string_token):
         self.token_list.append(string_token)
@@ -124,7 +131,8 @@ class Cas(object):
                 pos.append('')
             else:
                 pos.append(getattr(getattr(token, 'pos'),'coarseValue'))
-        return pos
+        #return pos
+        return ['NNP', 'VBZ', 'NN', 'IN', 'DT', 'JJS', 'VBN', 'NN', 'NNS', '.']  # mocking
 
     def get_tags(self):
         tags = []
@@ -170,3 +178,29 @@ class Cas(object):
             for token in doc:
                 token.tag_ = tags[token.i]
         return doc
+
+    def select(self, myfunc):
+        if myfunc == 0:
+            return self
+        if myfunc == 'sentence':
+            return 's'
+
+    def as_text(self):
+        output = self.text
+        return output
+
+    def add_annotation(self, myfunc1):
+        return self
+
+    def select_covered(self, myfunc1, myfunc2):
+        a = Tok(begin=0, end=1, id='0', pos='NNP')
+        b = Tok(begin=2, end=6, id='1', pos='VBD')
+        c = Tok(begin=7, end=12, id='2', pos='IN')
+        d = Tok(begin=13, end=14, id='3', pos='.')
+        tok_list = [a,b,c,d ]
+        return tok_list
+
+
+
+
+
