@@ -7,9 +7,11 @@ from pydkpro.server_request import ServerRequest
 
 
 class Pipeline(object):
-    def __init__(self):
+    def __init__(self, version="2.0.0", language='en'):
         self._pipeline_dict = dict()
         self._components = []
+        self.version = version
+        self.language = language
 
     def _check_format(self):
         keys = [ 'type', 'entity']
@@ -52,6 +54,24 @@ class Pipeline(object):
         self._check_format()
         return self._call_microservice()
 
+    def build(self):
+        print('Container web service for the provided pipeline is fired up. To stop use finish method')
+        return self
+
+    @staticmethod
+    def process(text, language='en'):
+        #print('input provided: %s' %(text))
+        if isinstance(text, Cas):
+            return Cas()
+        cs = Cas(text=text.split(' '))
+        return cs
+
+    @staticmethod
+    def finish():
+        #TODO
+        return 0
+
+
 
 
 
@@ -71,6 +91,51 @@ class Component(object):
 
     def run(self, string):
         return Pipeline().run(string)
+
+
+    def clearNlpSegmenter(self, **kwargs):
+
+        """
+        Send a message to a recipient
+
+        :param language: The language, Optional - Type: String, Available language = ['en']
+        :param modelArtifactUri:blabla
+        :param modelLocation:blabla
+        :param modelVariant: blabla
+        :param strictZoning: blabla
+        :param writeForm:blabla
+        :param writeSentence:blabla
+        :param writeToken:blabla
+        :param zoneTypes:blabla
+        :return: Cas object or DKPRO typesystem token or sentence
+        """
+
+        return self
+
+    def stanfordPosTagger(self, **kwargs):
+
+        """
+        Send a message to a recipient
+
+        :param language: The language, Optional - Type: String, Available language = ['en']
+        :param modelArtifactUri:blabla
+        :param modelLocation:blabla
+        :param modelVariant: blabla
+        :param strictZoning: blabla
+        :param writeForm:blabla
+        :param writeSentence:blabla
+        :param writeToken:blabla
+        :param zoneTypes:blabla
+        :return: Cas object or DKPRO typesystem token or sentence
+        """
+        return self
+
+    @staticmethod
+    def process(text, language='en'):
+        #print('input provided: %s' %(text))
+        cs = Cas()
+        return cs
+
 
 
 

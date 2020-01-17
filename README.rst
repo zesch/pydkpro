@@ -19,7 +19,17 @@ allowing for seamless integration.
 
 PyDKPro is still under heavy development. Feedback is highly appreciated.
 
+Demo Version
+-------------
+
+For demo purpose, different use cases are provided with working example (mocked) in `Examples/UseCases.ipynb`
+
 System requirements
+-------------------
+
+- TODO
+
+Installation
 -------------------
 
 - TODO
@@ -49,10 +59,9 @@ A pipeline is build by adding DKPro Core components.
 .. code-block:: python
 
     from pydkpro import Pipeline, Component
-
-    p = Pipeline(version=2.0.0, language='en')
-    p.add(Component.ClearNlpSegmenter())
-    p.add(Component.StanfordPosTagger(variant='fast-caseless', printTagSet='false')))
+    p = Pipeline(version="2.0.0", language='en')
+    p.add(Component().clearNlpSegmenter())
+    p.add(Component().stanfordPosTagger(variant='fast-caseless', printTagSet='false'))
     p.build() # fire up the container web service
 
 Note: All parameters are optional and default to best performed model versions.
@@ -86,7 +95,7 @@ To return all the tokens:
 .. code-block:: python
 
     from pydkpro import DKProCoreTypeSystem as dts
-    cas.select(dts.Token).as_text()
+    cas.select(dts().token()).as_text()
 
 .. **REC:** I'm not paricularly convinced of such convenience methods. I'd rather see the CAS select API be nicer, e.g. `cas.select(TOKEN).as_text()`.
 
@@ -100,7 +109,7 @@ To return all the pos tags:
 
 .. code-block:: python
 
-    cas.select(dts.Token).get_pos()
+    cas.select(dts().token()).get_pos()
 
 .. **REC:** See above.
 
@@ -132,23 +141,30 @@ Output:
 .. code-block:: python
 
     # add annotation
-    from cassis import Cas
-
+    from pydkpro.cas import Cas
     cas = Cas(dts())
 
     tokens = [
-        dts.Token(begin=0, end=1, id='0', pos='NNP'),
-        dts.Token(begin=2, end=6, id='1', pos='VBD'),
-        dts.Token(begin=7, end=12, id='2', pos='IN'),
-        dts.Token(begin=13, end=14, id='3', pos='.'),
-    ]
+           dts().token(begin=0, end=1, id='0', pos='NNP'),
+           dts().token(begin=2, end=6, id='1', pos='VBD'),
+           dts().token(begin=7, end=12, id='2', pos='IN'),
+           dts().token(begin=13, end=14, id='3', pos='.'),
+        ]
+
     for token in tokens:
         cas.add_annotation(token)
 
     # select annotation
-    for sentence in cas.select(dts.Sentence):
-        for tok in cas.select_covered(dts.Token, sentence):
+    for sentence in cas.select(dts().sentence()):
+         for tok in cas.select_covered(dts().token, sentence):
             print(tok.pos)
+
+.. code-block:: output
+
+    NNP
+    VBD
+    IN
+    .
 
 
 **Conversion from CAS to spaCy format and vice-versa**
@@ -157,7 +173,11 @@ Generated CAS objects can also be typecast to the spaCy type system.
 
 .. code-block:: python
 
-    for token in to_spacy(cas):
+    from pydkpro import To_spacy, From_spacy
+    cas = p.process('Backgammon is one of the oldest known board games.', language='en')
+
+
+    for token in To_spacy(cas)():
         print(token.text, token.tag_)
 
 .. **REC:** Having the converter is great, but IMHO it should be kept separately from the CAS object: `to_spacy(cas)` and `cas = from_spacy(doc)`.
@@ -171,9 +191,8 @@ Generated CAS objects can also be typecast to the spaCy type system.
 
     nlp = spacy.load("en_core_web_sm")
     doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
-    cas = from_spacy(doc):
-    print(cas.select(dts.Token).get_pos())
-
+    cas = From_spacy(doc)()
+    print(cas.select(dts().token()).get_pos())
 
 **Conversion from CAS to NLTK format**
 
@@ -184,7 +203,8 @@ Here is an example for POS:
 
 .. code-block:: python
 
-    print(to_nltk.tagger(cas))
+    from pydkpro.external import To_nltk, From_nltk
+    print(To_nltk().tagger(cas))
 
 Output:
 
@@ -199,7 +219,7 @@ This output can then be used for further integration with other NLTK components:
     import nltk
     chunkGram = r"""Chunk: {<RB.?>*<VB.?>*<NNP>}"""
     chunkParser = nltk.RegexpParser(chunkGram)
-    chunked = chunkParser.parse(to_nltk.tagger(cas))
+    chunked = chunkParser.parse(To_nltk().tagger(cas))
     print(chunked)
 
 Output:
@@ -228,20 +248,24 @@ In the following example, tokenization is performed using NLTK tweet tokenizer, 
 .. code-block:: python
 
     from nltk.tokenize import TweetTokenizer
+    cas = From_nltk().tokenizer(TweetTokenizer().tokenize('Backgammon is one of the oldest known board games.'))
 
-    cas = from_nltk.tokenizer(TweetTokenizer().tokenize('Backgammon is one of the oldest known board games.'))
+**Cas processing**
 
+PyDKPro pipeline also provide direct cas object processing as demonstrated in below example:
+
+.. code-block:: python
     p = Pipeline()
-    p.add(Component(type='pos_tagger'))
+    p.add(Component().stanfordPosTagger())
     p.build()
 
     cas = p.process(cas)
 
     # get tokens
-    cas.select(dts.Token).as_text()
+    print(cas.select(dts().token()).as_text())
 
     # get pos tags
-    cas.select(dts.Token).get_pos()
+    print(cas.select(dts().token()).get_pos())
 
 .. **REC: Above it as `get_pos()`...?
 
@@ -252,9 +276,10 @@ A single component can also be run without the need to build a pipeline first:
 
 .. code-block:: python
 
-    tokenizer = Component.ClearNlpSegmenter()
+    tokenizer = Component().clearNlpSegmenter()
+
     cas = tokenizer.process('I like playing cricket.')
-    cas.select(dts.Token).as_text()
+    print(cas.select(dts().token()).as_text())
 
 .. **REC:** call it `process` instead of `run` to stay in line with UIMA naming conventions.
 
@@ -274,10 +299,7 @@ document.
     str_list = ['Backgammon is one of the oldest known board games.', 'I like playing cricket.']
     for str in str_list:
         cas = p.process(str)
-        cas.select(dts.Token).as_text() # do something with the CAS
-
-    # trigger collectionProcessComplete
-    p.finish()
+        print(cas.select(dts().token()).as_text())
 
 .. **REC:** Call it `p.collection_process_complete()`?
 .. **TZ:** p.finish() and p.collection_process_complete() as a synonym
@@ -288,9 +310,11 @@ Pipelines can also be directly run on text documents:
 
 .. code-block:: python
 
-    cas = p.process(file2str('test_data/input/test2.txt'))
-    cas.select(dts.Token).as_text()
-    cas.select(dts.Token).get_pos()
+    from pydkpro.external import File2str
+
+    cas = p.process(File2str('test_data/input/test2.txt')())
+    print(cas.select(dts().token()).as_text())
+
 
 **Working with multiple text documents**
 
@@ -301,6 +325,10 @@ Multiple documents can also be processed by providing documents path and documen
     # documents available at different path can be provided in list
     docs = ['test_data/input/1.txt', 'test_data/input/2.txt']
     for doc in docs:
-        p.process(file2str(doc))
+        p.process(File2str(doc)())
+**End collection process**
 
+With following command pipeline's collection process will be completed (Alternatively, scope operator with can be used)
+
+.. code-block:: python
     p.finish()
