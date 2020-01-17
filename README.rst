@@ -22,7 +22,7 @@ PyDKPro is still under heavy development. Feedback is highly appreciated.
 Demo Version
 -------------
 
-For demo purpose, different use cases are provided with working example (mocked) in `Examples/UseCases.ipynb`
+For demo purpose, different use cases are provided with working example (mocked) in `Examples/UseCases.ipynb`_
 
 System requirements
 -------------------
@@ -158,6 +158,8 @@ Output:
     for sentence in cas.select(dts().sentence()):
          for tok in cas.select_covered(dts().token, sentence):
             print(tok.pos)
+
+Output:
 
 .. code-block:: output
 
