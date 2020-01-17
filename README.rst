@@ -331,5 +331,7 @@ Multiple documents can also be processed by providing documents path and documen
 **End collection process**
 
 With following command pipeline's collection process will be completed (Alternatively, scope operator ``with`` can be used)
+
 .. code-block:: python
+    
     p.finish()
