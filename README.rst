@@ -330,7 +330,6 @@ Multiple documents can also be processed by providing documents path and documen
         p.process(File2str(doc)())
 **End collection process**
 
-With following command pipeline's collection process will be completed (Alternatively, scope operator with can be used)
-
+With following command pipeline's collection process will be completed (Alternatively, scope operator ``with`` can be used)
 .. code-block:: python
     p.finish()
