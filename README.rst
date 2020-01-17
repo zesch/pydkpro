@@ -22,7 +22,7 @@ PyDKPro is still under heavy development. Feedback is highly appreciated.
 Demo Version
 -------------
 
-For demo purpose, different use cases are provided with working example (mocked) in `Examples/UseCases.ipynb`_
+For demo purpose, different use cases are provided with working example (mocked) in ``Examples/UseCases.ipynb``
 
 System requirements
 -------------------
