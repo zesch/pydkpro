@@ -123,11 +123,11 @@ Output:
 
 .. **REC:** It would be great if we could avoid having two implementations of the CAS, one in your project and one in Cassis. Let's rather try improving the API in Cassis.
 
-.. **REC:** This is confusing - why use `cassis.Token` and not the DKPro Core token?
+.. **REC:** This is confusing - why use `cassis.Token <https://github.com/dkpro/dkpro-cassis>`_ and not the DKPro Core token?
 
 .. **REC:** Instead of having a CAS implementation in pydkpro which adds convenience methods like `get_pos()`, I'd suggest to add a parameter to the Cassis CAS constructor by which an "initializer" can be specified, e.g.
 
-``DKProCoreTypeSystem`` would allow integration of other type systems to nicely use DKPro Cassis with their types systems. Generated cas object provide UIMA CAS functionality. For example:
+``DKProCoreTypeSystem`` would allow integration of other type systems to nicely use `DKPro Cassis <https://github.com/dkpro/dkpro-cassis>`_ with their types systems. Generated cas object provide UIMA CAS functionality. For example:
 
 ..  python
 
@@ -159,6 +159,7 @@ Output:
 Cas token attributes can printed as following:
 
 .. code-block:: python
+
     print([x.get_covered_text() for x in cas.select_all()])
     print([x.pos for x in cas.select_all()])
 
@@ -329,11 +330,9 @@ Multiple documents can also be processed by providing documents path and documen
     docs = ['test_data/input/1.txt', 'test_data/input/2.txt']
     for doc in docs:
         p.process(File2str(doc)())
-        
 **End collection process**
 
 With following command pipeline's collection process will be completed (Alternatively, scope operator ``with`` can be used)
 
 .. code-block:: python
-
     p.finish()
