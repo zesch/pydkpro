@@ -329,9 +329,11 @@ Multiple documents can also be processed by providing documents path and documen
     docs = ['test_data/input/1.txt', 'test_data/input/2.txt']
     for doc in docs:
         p.process(File2str(doc)())
+        
 **End collection process**
 
 With following command pipeline's collection process will be completed (Alternatively, scope operator ``with`` can be used)
 
 .. code-block:: python
+
     p.finish()
