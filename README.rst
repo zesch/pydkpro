@@ -95,7 +95,7 @@ To return all the tokens:
 .. code-block:: python
 
     from pydkpro import DKProCoreTypeSystem as dts
-    cas.select(dts().token()).as_text()
+    cas.select(dts().token).as_text()
 
 .. **REC:** I'm not paricularly convinced of such convenience methods. I'd rather see the CAS select API be nicer, e.g. `cas.select(TOKEN).as_text()`.
 
@@ -109,7 +109,7 @@ To return all the pos tags:
 
 .. code-block:: python
 
-    cas.select(dts().token()).get_pos()
+    cas.select(dts().token).get_pos()
 
 .. **REC:** See above.
 
@@ -123,11 +123,11 @@ Output:
 
 .. **REC:** It would be great if we could avoid having two implementations of the CAS, one in your project and one in Cassis. Let's rather try improving the API in Cassis.
 
-.. **REC:** This is confusing - why use `cassis.Token` and not the DKPro Core token?
+.. **REC:** This is confusing - why use `cassis.Token <https://github.com/dkpro/dkpro-cassis>`_ and not the DKPro Core token?
 
 .. **REC:** Instead of having a CAS implementation in pydkpro which adds convenience methods like `get_pos()`, I'd suggest to add a parameter to the Cassis CAS constructor by which an "initializer" can be specified, e.g.
 
-``DKProCoreTypeSystem`` would allow integration of other type systems to nicely use DKPro Cassis with their types systems. Generated cas object provide UIMA CAS functionality. For example:
+``DKProCoreTypeSystem`` would allow integration of other type systems to nicely use `DKPro Cassis <https://github.com/dkpro/dkpro-cassis>`_ with their types systems. Generated cas object provide UIMA CAS functionality. For example:
 
 ..  python
 
@@ -142,31 +142,33 @@ Output:
 
     # add annotation
     from pydkpro.cas import Cas
-    cas = Cas(dts())
-
+    Token = dts().typesystem.get_type('de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token') # define dkpro token
+    cas = Cas(dts().typesystem)()
+    cas.sofa_string = "I like cheese ."
     tokens = [
-           dts().token(begin=0, end=1, id='0', pos='NNP'),
-           dts().token(begin=2, end=6, id='1', pos='VBD'),
-           dts().token(begin=7, end=12, id='2', pos='IN'),
-           dts().token(begin=13, end=14, id='3', pos='.'),
-        ]
+        Token(begin=0, end=1, id='0', pos='NNP'),
+        Token(begin=2, end=6, id='1', pos='VBD'),
+        Token(begin=7, end=13, id='2', pos='IN'),
+        Token(begin=14, end=15, id='3', pos='.')
+    ]
+
 
     for token in tokens:
         cas.add_annotation(token)
 
-    # select annotation
-    for sentence in cas.select(dts().sentence()):
-         for tok in cas.select_covered(dts().token, sentence):
-            print(tok.pos)
+Cas token attributes can printed as following:
+
+.. code-block:: python
+
+    print([x.get_covered_text() for x in cas.select_all()])
+    print([x.pos for x in cas.select_all()])
 
 Output:
 
 .. code-block:: output
 
-    NNP
-    VBD
-    IN
-    .
+    ['I', 'like', 'cheese', '.']
+    ['NNP', 'VBD', 'IN', '.']
 
 
 **Conversion from CAS to spaCy format and vice-versa**
@@ -194,7 +196,7 @@ Generated CAS objects can also be typecast to the spaCy type system.
     nlp = spacy.load("en_core_web_sm")
     doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
     cas = From_spacy(doc)()
-    print(cas.select(dts().token()).get_pos())
+    print(cas.select(dts().token).get_pos())
 
 **Conversion from CAS to NLTK format**
 
@@ -281,7 +283,7 @@ A single component can also be run without the need to build a pipeline first:
     tokenizer = Component().clearNlpSegmenter()
 
     cas = tokenizer.process('I like playing cricket.')
-    print(cas.select(dts().token()).as_text())
+    print(cas.select(dts().token).as_text())
 
 .. **REC:** call it `process` instead of `run` to stay in line with UIMA naming conventions.
 
@@ -301,7 +303,7 @@ document.
     str_list = ['Backgammon is one of the oldest known board games.', 'I like playing cricket.']
     for str in str_list:
         cas = p.process(str)
-        print(cas.select(dts().token()).as_text())
+        print(cas.select(dts().token).as_text())
 
 .. **REC:** Call it `p.collection_process_complete()`?
 .. **TZ:** p.finish() and p.collection_process_complete() as a synonym
@@ -315,7 +317,7 @@ Pipelines can also be directly run on text documents:
     from pydkpro.external import File2str
 
     cas = p.process(File2str('test_data/input/test2.txt')())
-    print(cas.select(dts().token()).as_text())
+    print(cas.select(dts().token).as_text())
 
 
 **Working with multiple text documents**

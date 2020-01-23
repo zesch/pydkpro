@@ -6,7 +6,8 @@ from cassis import load_typesystem, load_cas_from_xmi
 from spacy.tokens import Doc, Span
 from spacy.attrs import POS, HEAD, DEP
 from spacy.vocab import Vocab
-from pydkpro.typesystems import Tok
+from pydkpro.typesystems import DKProCoreTypeSystem as dts
+import cassis
 import codecs
 import subprocess
 import shlex
@@ -28,11 +29,22 @@ class Cas(object):
         if cas_path:
             with open(self.cas_path , 'rb') as f:
                 self.cas = load_cas_from_xmi(f, typesystem=self.typesystem)
+        elif isinstance(self.args, cassis.TypeSystem):
+            self.cas = cs(typesystem=self.args)
+
         else:
-            self.cas = cs(typesystem = self.typesystem)
+            self.cas = cs(typesystem=self.typesystem)
             self.cas.sofa_mime = "text/plain"
             self.cas.sofa_string = ""
         #print('I am called')
+
+    def __call__(self):
+        if isinstance(self.args, cassis.TypeSystem):
+            return cs(typesystem=self.args)
+        else:
+            return self.cas
+
+
 
     def add_token(self, string_token):
         self.token_list.append(string_token)
@@ -180,10 +192,10 @@ class Cas(object):
         return doc
 
     def select(self, myfunc):
-        if myfunc == 0:
-            return self
         if myfunc == 'sentence':
             return 's'
+        else:
+            return self
 
     def as_text(self):
         output = self.text

@@ -5,7 +5,7 @@
 
 """
 
-from cassis import TypeSystem
+from cassis import load_typesystem
 
 class Tok(object):
     def __init__(self, begin=0, end=1, id='0', pos='NNP'):
@@ -19,7 +19,11 @@ class Tok(object):
 
 class DKProCoreTypeSystem(object):
     def __init__(self):
-        pass
+        with open('../pydkpro/typesystems/dkpro-core-types.xml', 'rb') as f:
+            self.typesystem = load_typesystem(f)
+
+    def __call__(self):
+        return self.typesystem
 
     def token(self, **kwargs):
         return 0
