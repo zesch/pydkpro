@@ -35,11 +35,9 @@ Create virtual environment.
 
 Install dependencies using pip.
 
-.. code-block:: bash
-    python -m pip install -r requirements.txt
+    $ python -m pip install -r requirements.txt
 
-.. code-block:: bash
-    python -m spacy download en_core_web_sm
+    $ python -m spacy download en_core_web_sm
 
 
 Features
@@ -54,8 +52,9 @@ Usage
 -----
 
 **How to open examples notebook**
-.. code-block:: bash
+
     $ cd /Examples
+    
     $ jupyter notebook
 
 **Defining an NLP pipeline**
