@@ -28,7 +28,16 @@ System requirements
 Installation
 -------------------
 
-- TODO
+Create virtual environment.
+
+.. code-block:: sh
+    virtualenv -p python3 pydkpro
+
+Install dependencies using pip.
+
+.. code-block:: sh
+    pip install -r requirements.txt
+
 
 
 Features
