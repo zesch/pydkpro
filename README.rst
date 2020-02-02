@@ -30,8 +30,7 @@ Installation
 
 Create virtual environment.
 
-.. code-block:: bash
-    virtualenv -p python3 pydkpro
+    $ virtualenv -p python3 pydkpro
 
 Install dependencies using pip.
 
@@ -54,7 +53,7 @@ Usage
 **How to open examples notebook**
 
     $ cd /Examples
-    
+
     $ jupyter notebook
 
 **Defining an NLP pipeline**
