@@ -30,14 +30,16 @@ Installation
 
 Create virtual environment.
 
-.. code-block:: sh
+.. code-block:: bash
     virtualenv -p python3 pydkpro
 
 Install dependencies using pip.
 
-.. code-block:: sh
-    pip install -r requirements.txt
+.. code-block:: bash
+    python -m pip install -r requirements.txt
 
+.. code-block:: bash
+    python -m spacy download en_core_web_sm
 
 
 Features
@@ -50,6 +52,11 @@ Features
 
 Usage
 -----
+
+**How to open examples notebook**
+.. code-block:: bash
+    $ cd /Examples
+    $ jupyter notebook
 
 **Defining an NLP pipeline**
 
