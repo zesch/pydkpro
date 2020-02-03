@@ -28,11 +28,36 @@ System requirements
 Installation
 -------------------
 
+**Creating virtual environment**
+
+Install virtualenv if not already installed.
+
+    $ python -m pip install virtualenv 
+
 Create virtual environment.
 
-    $ virtualenv -p python3 pydkpro
+    $ virtualenv -p python3 \path\to\repo
+    
 
-Install dependencies using pip.
+**Creating virtual environment using conda**
+
+Create virtual environment with conda.
+
+    $ conda create --name pydkpro
+
+Activate created virtual environment.
+
+For Windows:
+
+    $ conda activate pydkpro
+
+For Linux and Mac OS:
+
+    $ source activate pydkpro
+
+
+
+**Install dependencies using pip**
 
     $ python -m pip install -r requirements.txt
 
@@ -52,7 +77,7 @@ Usage
 
 **How to open examples notebook**
 
-    $ cd /Examples
+    $ cd Examples
 
     $ jupyter notebook
 
