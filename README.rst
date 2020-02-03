@@ -37,8 +37,12 @@ Install virtualenv if not already installed.
 Create virtual environment.
 
     $ mkdir [env_name]
-    
-    $ virtualenv -p python3 [env_name] or python3 -m venv [env_name]
+
+    $ virtualenv -p python3 [env_name] 
+
+    or 
+
+    $ python3 -m venv [env_name]
     
 
 **Creating virtual environment using conda**
