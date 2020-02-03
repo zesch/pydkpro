@@ -49,7 +49,7 @@ or
 
 Create virtual environment with conda. Replace [env_name] with a name of your choice.
 
-    $ conda create --name [env_name] pip
+    $ conda create --name [env_name] python=3.6
 
 Activate created virtual environment.
 
@@ -60,6 +60,10 @@ For Windows:
 For Linux and Mac OS:
 
     $ source [env_name]/bin/activate
+
+To activate the environment (on Windows, MacOS and Unix),
+
+    $ conda activate [env_name]
 
 
 
