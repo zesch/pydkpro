@@ -36,24 +36,25 @@ Install virtualenv if not already installed.
 
 Create virtual environment.
 
-    $ virtualenv -p python3 \path\to\repo
+    $ mkdir [env_name]
+    $ virtualenv -p python3 [env_name] or python3 -m venv [env_name]
     
 
 **Creating virtual environment using conda**
 
 Create virtual environment with conda.
 
-    $ conda create --name pydkpro
+    $ conda create --name [env_name] pip
 
 Activate created virtual environment.
 
 For Windows:
 
-    $ conda activate pydkpro
+    $ [env_name]\Scripts\activate.bat
 
 For Linux and Mac OS:
 
-    $ source activate pydkpro
+    $ source [env_name]/bin/activate
 
 
 
