@@ -34,20 +34,20 @@ Install virtualenv if not already installed.
 
     $ python -m pip install virtualenv 
 
-Create virtual environment.
+Create virtual environment. Replace [env_name] with a name of your choice.
 
     $ mkdir [env_name]
 
     $ virtualenv -p python3 [env_name] 
 
-    or 
+or 
 
     $ python3 -m venv [env_name]
     
 
 **Creating virtual environment using conda**
 
-Create virtual environment with conda.
+Create virtual environment with conda. Replace [env_name] with a name of your choice.
 
     $ conda create --name [env_name] pip
 
