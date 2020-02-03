@@ -277,9 +277,9 @@ def main():
     p.run(Loadfile('test.xmi')) # need fix TODO type
 
     # case 4 use folder path include multiple text files
-    for (file in folder):
-    for (String in array):
-        CAS = p.run(file)  # return cas object
+    for file in folder:
+        for String in array:
+            CAS = p.run(file)  # return cas object
 
     p.run([text,text,text])
     p.run( [file for file in folder] )
@@ -292,8 +292,8 @@ def main():
     p2.add(Component(name='pos_tagger', brand='stanford', language='en', variant='fast41'))
     tknzr = TweetTokenizer()
     #p2.run(Casobject(tknzr.tokenize('hello how are you'))) # TODO csv
-    CAS = new CAS()
-    for (token in tknzr.tokenize('hello')):
+    CAS = CAS()
+    for token in tknzr.tokenize('hello'):
         Token
         CAS.add(token)
 

@@ -28,7 +28,46 @@ System requirements
 Installation
 -------------------
 
-- TODO
+**Creating virtual environment**
+
+Install virtualenv if not already installed.
+
+    $ python -m pip install virtualenv 
+
+Create virtual environment. Replace [env_name] with a name of your choice.
+
+    $ mkdir [env_name]
+
+    $ virtualenv -p python3 [env_name] 
+
+or 
+
+    $ python3 -m venv [env_name]
+    
+
+**Creating virtual environment using conda**
+
+Create virtual environment with conda. Replace [env_name] with a name of your choice.
+
+    $ conda create --name [env_name] pip
+
+Activate created virtual environment.
+
+For Windows:
+
+    $ [env_name]\Scripts\activate.bat
+
+For Linux and Mac OS:
+
+    $ source [env_name]/bin/activate
+
+
+
+**Install dependencies using pip**
+
+    $ python -m pip install -r requirements.txt
+
+    $ python -m spacy download en_core_web_sm
 
 
 Features
@@ -41,6 +80,12 @@ Features
 
 Usage
 -----
+
+**How to open examples notebook**
+
+    $ cd Examples
+
+    $ jupyter notebook
 
 **Defining an NLP pipeline**
 
