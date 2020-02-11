@@ -1,0 +1,2 @@
+OpenNlpSegmenter,de.tudarmstadt.ukp.dkpro.core,de.tudarmstadt.ukp.dkpro.core.opennlp-asl,1.10.0,de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter
+OpenNlpPosTagger,de.tudarmstadt.ukp.dkpro.core,de.tudarmstadt.ukp.dkpro.core.opennlp-asl,1.10.0,de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger

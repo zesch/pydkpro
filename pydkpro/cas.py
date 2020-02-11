@@ -2,7 +2,7 @@
 # -*- coding : utf-8 -*-
 
 from cassis import Cas as cs
-from cassis import load_typesystem, load_cas_from_xmi
+from cassis import load_typesystem, load_cas_from_xmi, load_dkpro_core_typesystem
 from spacy.tokens import Doc, Span
 from spacy.attrs import POS, HEAD, DEP
 from spacy.vocab import Vocab
@@ -14,7 +14,7 @@ import shlex
 import os
 
 class Cas(object):
-    def __init__(self, args='object',
+    def __init__(self, args='object', xmi_string = None,
                  text = ['Backgammon', 'is', 'one', 'of', 'the', 'oldest', 'known', 'board', 'games', '.'],
                  cas_path=None, type_system_path='../pydkpro/typesystems/temp_TypeSytems.xml',
                  token_type='de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token'):
@@ -28,9 +28,12 @@ class Cas(object):
             self.typesystem = load_typesystem(f)
         if cas_path:
             with open(self.cas_path , 'rb') as f:
-                self.cas = load_cas_from_xmi(f, typesystem=self.typesystem)
+                self.cas = load_cas_from_xmi(f, typesystem=load_dkpro_core_typesystem())
         elif isinstance(self.args, cassis.TypeSystem):
             self.cas = cs(typesystem=self.args)
+
+        if xmi_string:
+            self.cas = load_cas_from_xmi(xmi_string, typesystem=load_dkpro_core_typesystem())
 
         else:
             self.cas = cs(typesystem=self.typesystem)
@@ -138,13 +141,26 @@ class Cas(object):
 
     def get_pos(self):
         pos = []
-        for token in self.cas.select(self.token_type):
-            if getattr(getattr(token, 'pos'),'coarseValue') is None:
-                pos.append('')
-            else:
-                pos.append(getattr(getattr(token, 'pos'),'coarseValue'))
+        #for token in self.cas.select(self.token_type):
+         #   if getattr(getattr(token, 'pos'),'coarseValue') is None:
+          #      pos.append('')
+           # else:
+            #    pos.append(getattr(getattr(token, 'pos'),'coarseValue'))
         #return pos
-        return ['NNP', 'VBZ', 'NN', 'IN', 'DT', 'JJS', 'VBN', 'NN', 'NNS', '.']  # mocking
+        #return ['NNP', 'VBZ', 'NN', 'IN', 'DT', 'JJS', 'VBN', 'NN', 'NNS', '.']  # mocking
+        #tokens = []
+        for sentence in self.cas.select('de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence'):
+            for token in self.cas.select_covered('de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token', sentence):
+                #tokens.append(token.get_covered_text())
+                if getattr(getattr(token, 'pos'),'coarseValue') is None:
+                    pos.append('')
+                else:
+                    pos.append(getattr(getattr(token, 'pos'),'coarseValue'))
+
+                # Annotation values can be accessed as properties
+        #        print('Token: begin={0}, end={1}, id={2}, pos={3}'.format(token.begin, token.end, token.id, token.pos))
+        # output = self.text
+        return pos
 
     def get_tags(self):
         tags = []
@@ -198,10 +214,22 @@ class Cas(object):
             return self
 
     def as_text(self):
-        output = self.text
-        return output
+        tokens = []
+        for sentence in self.cas.select('de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence'):
+            for token in self.cas.select_covered('de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token', sentence):
+                tokens.append(token.get_covered_text())
+                #print(token.get_covered_text())
+
+                # Annotation values can be accessed as properties
+        #        print('Token: begin={0}, end={1}, id={2}, pos={3}'.format(token.begin, token.end, token.id, token.pos))
+       # output = self.text
+        return tokens
 
     def add_annotation(self, myfunc1):
+        return self
+
+    def load_from_dkpro_xmi(self, xmi_string):
+        self.cas = load_cas_from_xmi(xmi_string, typesystem=load_dkpro_core_typesystem())
         return self
 
     def select_covered(self, myfunc1, myfunc2):
