@@ -13,12 +13,12 @@ from distutils.dir_util import copy_tree
 CWD = os.path.abspath(os.path.join('../pydkpro'))
 
 def postShellCommand(command):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
     out = process.communicate()
     return out[0]
 
 def postShellCommandInDirectory(command, destination):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=True)
     out = process.communicate()
     return out[0]
 
