@@ -44,22 +44,21 @@ or
 
     $ python3 -m venv [env_name]
     
+Activate created virtual environment.
+
+For Windows:
+
+    $ [env_name]\\Scripts\\activate.bat
+
+For Linux and Mac OS:
+
+    $ source [env_name]/bin/activate
 
 **Creating virtual environment using conda**
 
 Create virtual environment with conda. Replace [env_name] with a name of your choice.
 
     $ conda create --name [env_name] python=3.6
-
-Activate created virtual environment.
-
-For Windows:
-
-    $ [env_name]\Scripts\activate.bat
-
-For Linux and Mac OS:
-
-    $ source [env_name]/bin/activate
 
 To activate the environment (on Windows, MacOS and Unix),
 
