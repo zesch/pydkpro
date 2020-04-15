@@ -23,7 +23,8 @@ For demo purpose, different use cases are provided with working example (mocked)
 System requirements
 -------------------
 
-- TODO
+- Python >=3.6
+- Git
 
 Installation
 -------------------
@@ -64,9 +65,13 @@ To activate the environment (on Windows, MacOS and Unix),
 
     $ conda activate [env_name]
 
+**Clone this repository**
 
+    $ git clone https://github.com/zesch/pydkpro.git
 
 **Install dependencies using pip**
+
+    $ cd pydkpro
 
     $ python -m pip install -r requirements.txt
 
