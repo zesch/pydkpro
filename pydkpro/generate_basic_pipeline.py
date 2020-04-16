@@ -13,12 +13,14 @@ from distutils.dir_util import copy_tree
 CWD = os.path.abspath(os.path.join('..', 'pydkpro'))
 
 def postShellCommand(command):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE)
+    print(command)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
     out = process.communicate()
+    print(out[0])
     return out[0]
 
 def postShellCommandInDirectory(command, destination):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=True)
     out = process.communicate()
     return out[0]
 
@@ -173,6 +175,7 @@ def build_pipeline(required_pipeline):
     boilerplate_path = os.path.join(CWD, os.path.join( 'boilerplates', 'mypipeline'))
     pipeline_path = os.path.join(CWD, 'pipelines')
     if os.path.exists(pipeline_path):
+        os.chmod(pipeline_path, 0o777)
         shutil.rmtree(pipeline_path)
     postShellCommand(['mkdir', '-p', pipeline_path])
     copytree(boilerplate_path, pipeline_path)

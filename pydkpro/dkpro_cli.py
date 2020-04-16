@@ -35,12 +35,12 @@ def findDirPath(name, path):
 
 
 def postShellCommand(command):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
     out = process.communicate()
     return out[0]
 
 def postShellCommandInDirectory(command, destination, origin):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=True)
     out = process.communicate()
     return out[0]
 
@@ -141,7 +141,7 @@ def getPipelineMethodAndClassName():
 def getPipelineMavenDependencyInformations():
 
 
-    directory = 'pipelines'
+    directory = os.path.join(CWD, 'pipelines')
     origin = 'PWD'
     global groupId
     global artifactId
@@ -186,12 +186,14 @@ def setupFolders():
     origin = postShellCommand(['pwd'])
     
     # path_destination = origin + '/' + deployment_folder_name 
-    postShellCommand(['mkdir', deployment_folder_name] )
+    postShellCommand(['mkdir', '-p', deployment_folder_name] )
 
     # clone server git repository
     pullServerTemplateInFolder(deployment_folder_name, origin)
 
     # copy current analysis files to deployment folder, without the deployment folder
+    analysis_folder_name = os.path.join(CWD, os.path.join('pipelines', 'deployment', 'pipeline'))
+    postShellCommand(['mkdir', '-p', analysis_folder_name] )
     copytree(os.path.join(CWD, 'pipelines'), os.path.join(CWD, os.path.join('pipelines', 'deployment', 'pipeline')))
     postShellCommand(['mkdir', os.path.join(deployment_folder_name,'target' ,'docker')])
 
