@@ -15,7 +15,8 @@ from yaspin import yaspin
 from yaspin.spinners import Spinners
 import shutil
 
-CWD = os.path.abspath(os.path.join('../pydkpro'))
+CWD = os.path.abspath(os.path.join('..', 'pydkpro'))
+DKR = os.path.join('pipelines', 'deployment', 'target', 'docker')
 
 def checkForFile(fileName):
     #return os.path.isfile('./' + fileName)
@@ -58,8 +59,8 @@ def removeSubstrings(to_clean, substrings):
 def copyAllFilesButOneTo(file_to_cut, destination):
 
     # list all files in current pipeline directory
-    dirs  = filter(os.path.isdir, os.listdir('./'))
-    files = filter(os.path.isfile, os.listdir('./'))
+    dirs  = filter(os.path.isdir, os.listdir(os.getcwd()))
+    files = filter(os.path.isfile, os.listdir(os.getcwd()))
 
     for file in files:
         copy_file(file, destination)
@@ -67,7 +68,7 @@ def copyAllFilesButOneTo(file_to_cut, destination):
     for dir in dirs:
         
         if dir != file_to_cut:
-            copy_tree(dir, destination + '/' + dir)
+            copy_tree(dir, os.path.join(destination, dir))
 
 
 def writeFileAfterLineIdentifier(filePath, content, identifier):
@@ -160,12 +161,12 @@ def pullServerTemplateInFolder(folderName, origin):
     # server template, here is a good point to add multiple templates with a switch statement
     # the setup folder function could ask for a template specification in the shell
 
-    deployment_path = 'pipelines/deployment'
+    deployment_path = os.path.join( 'pipelines', 'deployment')
     if os.path.exists(deployment_path):
         shutil.rmtree(deployment_path)
     postShellCommand(['mkdir', '-p', deployment_path])
-    copytree(os.path.join(CWD,'boilerplates/myapplication/dkpro-deploy-server-template'),
-             os.path.join(CWD,'pipelines/deployment'))
+    copytree(os.path.join(CWD, os.path.join('boilerplates', 'myapplication', 'dkpro-deploy-server-template')),
+             os.path.join(CWD, os.path.join( 'pipelines','deployment')))
 
 
 def copytree(src, dst, symlinks=False, ignore=None):
@@ -181,7 +182,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
 def setupFolders():
     # setup
     global origin
-    deployment_folder_name = os.path.join(CWD,'pipelines/deployment')
+    deployment_folder_name = os.path.join(CWD, os.path.join( 'pipelines', 'deployment'))
     origin = postShellCommand(['pwd'])
     
     # path_destination = origin + '/' + deployment_folder_name 
@@ -191,12 +192,12 @@ def setupFolders():
     pullServerTemplateInFolder(deployment_folder_name, origin)
 
     # copy current analysis files to deployment folder, without the deployment folder
-    copytree(os.path.join(CWD,'pipelines'), os.path.join(CWD,'pipelines/deployment/pipeline'))
-    postShellCommand(['mkdir', deployment_folder_name+'/target/docker'])
+    copytree(os.path.join(CWD, 'pipelines'), os.path.join(CWD, os.path.join('pipelines', 'deployment', 'pipeline')))
+    postShellCommand(['mkdir', os.path.join(deployment_folder_name,'target' ,'docker')])
 
 def addContainerName():
     print('in container name')
-    path_to_pom = './deployment/pom.xml'
+    path_to_pom = os.path.join('deployment', 'pom.xml')
     identifier = '@DKPRO CLI container name generation is starting this line'
     container_name= '<name>' + className + '</name>'
 
@@ -204,7 +205,7 @@ def addContainerName():
 
 def addMavenDependencyToServer():
 
-    path_to_pom = os.path.join(CWD,'pipelines/deployment/pom.xml')
+    path_to_pom = os.path.join(CWD, os.path.join( 'pipelines', 'deployment', 'pom.xml'))
     line_identifier = '@DKPRO CLI import dependecies is starting this line'
     name_identifier = '@DKPRO CLI container name generation is starting this line'
     
@@ -235,7 +236,7 @@ def generateImportStatement(path):
     # to create a import statement we have to find the location of the class
     # in the project folder, this is the root from where we search the directory 
     # to locate the class file
-    search_from = os.path.join(CWD,'pipelines/src/main/java/')
+    search_from = os.path.join(CWD, os.path.join( 'pipelines','src','main','java'))
 
     # executes the file search in the specified directory
     class_path = findFilePath(java_class_file_name, search_from)
@@ -243,8 +244,11 @@ def generateImportStatement(path):
     cleaned_path_java = class_path.replace('.java', '')
     cleaned_path = cleaned_path_java.replace(search_from, '')
 
-    # the last thing todo: replace / with .
-    path_to_import = 'import ' + cleaned_path.replace('/', '.') + ';\n'
+    # the last thing todo: replace slash with .
+    if sys.platform == 'win32':
+        path_to_import = 'import ' + cleaned_path[1:].replace('\\', '.') + ';\n'
+    else:
+        path_to_import = 'import ' + cleaned_path[1:].replace('/', '.') + ';\n'
 
     writeFileAfterLineIdentifier(path, path_to_import, identifier)
 
@@ -273,7 +277,8 @@ def generateAnalysisExec(path):
 
 def generateJavaCode():
     # file to rewrite
-    path_to_dkpro_endpoint = os.path.join(CWD,'pipelines/deployment/src/main/java/com/DKProEndpoint.java')
+    path_to_dkpro_endpoint = os.path.join(CWD, os.path.join( 'pipelines', 'deployment', 'src', 'main', 'java', 'com',
+                                                            'DKProEndpoint.java'))
 
     # the pipeline import and trigger has to be generated
     generateImportStatement(path_to_dkpro_endpoint)
@@ -282,23 +287,23 @@ def generateJavaCode():
 
 
 def buildProject():
-    path = os.path.join(CWD,'pipelines/deployment')
+    path = os.path.join(CWD, os.path.join( 'pipelines', 'deployment'))
     commandBuilProject = ['mvn', 'clean', 'install', '-Dmaven.test.skip=true']
     postShellCommandInDirectory(commandBuilProject, path, origin)
 
 def buildContainer():
     global imageName
     # this command compiles and builds the container image
-    imageName = 'dkpro/' + className.lower()
+    imageName = os.path.join('dkpro', className.lower())
     
-    path = os.path.join(CWD,'pipelines/deployment/target/docker/')
+    path = os.path.join(CWD, DKR)
     commandBuilding = ['docker', 'image','build', '-t', imageName, path]
 
     postShellCommand(commandBuilding) 
 
 def pushContainertoRegistry():
 
-    destination = os.path.join(CWD,'pipelines/deployment')
+    destination = os.path.join(CWD, os.path.join( 'pipelines', 'deployment'))
 
     # this command compiles and builds the container image
     command = ['mvn', 'clean', 'package', 'docker:build', '-DpushImageTag', '-DdockerImageTags=latest']
@@ -306,7 +311,7 @@ def pushContainertoRegistry():
 
 def runContainerLocally(background, port):
 
-    destination = os.path.join(CWD,'pipelines/deployment/target/docker')
+    destination = os.path.join(CWD,DKR)
 
     # get paths
     command_fg = ['docker', 'run', '-it', '--rm', '--name', 'dkpro_container',  '-p', port + ':8080', imageName]
@@ -316,8 +321,8 @@ def runContainerLocally(background, port):
     postShellCommandInDirectory(command, destination, origin)
 
 def moverDockerfilesAndRemoveDeployment():
-    move = ['mv', os.path.join(CWD,'pipelines/deployment/target/docker'), './docker']
-    remove = ['rm' '-rf' 'pipelines/deployment']
+    move = ['mv', os.path.join(CWD, DKR), 'docker']
+    remove = ['rm' '-rf' ,os.path.join( 'pipelines','deployment')]
     postShellCommand(move)
 
 
@@ -334,8 +339,7 @@ def cliDefinition(port='3000', deploy='local', kill=False, background=True, only
     if kill == True: 
         killAllRunningContainers()
         return
-
-    pomExists = checkForFile(os.path.join(CWD,'pipelines/pom.xml'))
+    pomExists = checkForFile(os.path.join(CWD, os.path.join('pipelines', 'pom.xml')))
 
     if not pomExists:
         click.echo('No pom.xml found. Are you in the correct directory ?')

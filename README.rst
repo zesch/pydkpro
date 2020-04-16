@@ -25,6 +25,8 @@ System requirements
 
 - Python >=3.6
 - Git
+- mvn
+- Docker (please make sure it is running)
 
 Installation
 -------------------

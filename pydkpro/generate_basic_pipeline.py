@@ -10,15 +10,15 @@ import shutil
 from distutils.file_util import copy_file
 from distutils.dir_util import copy_tree
 
-CWD = os.path.abspath(os.path.join('../pydkpro'))
+CWD = os.path.abspath(os.path.join('..', 'pydkpro'))
 
 def postShellCommand(command):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE)
     out = process.communicate()
     return out[0]
 
 def postShellCommandInDirectory(command, destination):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=True)
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination)
     out = process.communicate()
     return out[0]
 
@@ -34,8 +34,8 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 def copyAllFilesButOneTo(file_to_cut, destination):
     # list all files in current pipeline directory
-    dirs = filter(os.path.isdir, os.listdir('./'))
-    files = filter(os.path.isfile, os.listdir('./'))
+    dirs = filter(os.path.isdir, os.listdir(os.getcwd()))
+    files = filter(os.path.isfile, os.listdir(os.getcwd()))
 
     for file in files:
         copy_file(file, destination)
@@ -43,7 +43,7 @@ def copyAllFilesButOneTo(file_to_cut, destination):
     for dir in dirs:
 
         if dir == file_to_cut:
-            copy_tree(dir, destination + '/' + dir)
+            copy_tree(dir, os.path.join(destination, dir))
 
 
 def writeFileAfterLineIdentifier(filePath, content, identifier):
@@ -146,7 +146,7 @@ def generateAnalysisExec(path, java_import):
 
 def generateJavaCode(path_to_dkpro_endpoint, groupId, artifactId, version, java_import, parameters):
     # file to rewrite
-    pom_path = os.path.join(CWD, 'pipelines/pom.xml')
+    pom_path = os.path.join(CWD, os.path.join('pipelines','pom.xml'))
     addMavenDependencyToServer(pom_path, groupId, artifactId, version)
 
     # the pipeline import and trigger has to be generated
@@ -166,17 +166,18 @@ def setupFolders(boilerplate_path, pipeline_path):
     postShellCommand(['mkdir', '-p',  pipeline_path])
 
     # copy current analysis files to deployment folder, without the deployment folder
-    postShellCommand(['cp', '-r', boilerplate_path+'/*', pipeline_path])
+    postShellCommand(['cp', '-r', os.path.join(boilerplate_path, '*'), pipeline_path])
 
 
 def build_pipeline(required_pipeline):
-    boilerplate_path = os.path.join(CWD,'boilerplates/mypipeline')
-    pipeline_path = os.path.join(CWD,'pipelines')
+    boilerplate_path = os.path.join(CWD, os.path.join( 'boilerplates', 'mypipeline'))
+    pipeline_path = os.path.join(CWD, 'pipelines')
     if os.path.exists(pipeline_path):
         shutil.rmtree(pipeline_path)
     postShellCommand(['mkdir', '-p', pipeline_path])
     copytree(boilerplate_path, pipeline_path)
-    path_to_dkpro_endpoint = os.path.join(CWD,'pipelines/src/main/java/example/DKProPipeline.java')
+    path_to_dkpro_endpoint = os.path.join(CWD, os.path.join('pipelines', 'src', 'main', 'java', 'example',
+                                                            'DKProPipeline.java'))
     for eachEntry in required_pipeline[::-1]:   # reversing the list
         class_name = eachEntry["class"]
         groupId = eachEntry["groupID"]
