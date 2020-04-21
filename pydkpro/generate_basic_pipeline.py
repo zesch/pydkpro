@@ -3,7 +3,7 @@
 
 
 import subprocess
-import os
+import os, stat
 import shutil
 
 
@@ -13,10 +13,8 @@ from distutils.dir_util import copy_tree
 CWD = os.path.abspath(os.path.join('..', 'pydkpro'))
 
 def postShellCommand(command):
-    print(command)
     process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
     out = process.communicate()
-    print(out[0])
     return out[0]
 
 def postShellCommandInDirectory(command, destination):
@@ -170,14 +168,23 @@ def setupFolders(boilerplate_path, pipeline_path):
     # copy current analysis files to deployment folder, without the deployment folder
     postShellCommand(['cp', '-r', os.path.join(boilerplate_path, '*'), pipeline_path])
 
+	
+def add_permission(path):
+    "provide recursive permission to path"
+    for root, dirs, files in os.walk(path):
+        for each_dir in dirs:
+            os.chmod(os.path.join(root, each_dir), stat.S_IWRITE)
+            add_permission(os.path.join(root, each_dir))
+        for each_file in files:
+            os.chmod(os.path.join(root, each_file), stat.S_IWRITE)		    
 
 def build_pipeline(required_pipeline):
     boilerplate_path = os.path.join(CWD, os.path.join( 'boilerplates', 'mypipeline'))
     pipeline_path = os.path.join(CWD, 'pipelines')
     if os.path.exists(pipeline_path):
-        os.chmod(pipeline_path, 0o777)
+        add_permission(pipeline_path)
         shutil.rmtree(pipeline_path)
-    postShellCommand(['mkdir', '-p', pipeline_path])
+    postShellCommand(['mkdir', pipeline_path])
     copytree(boilerplate_path, pipeline_path)
     path_to_dkpro_endpoint = os.path.join(CWD, os.path.join('pipelines', 'src', 'main', 'java', 'example',
                                                             'DKProPipeline.java'))

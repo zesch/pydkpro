@@ -296,7 +296,7 @@ def buildProject():
 def buildContainer():
     global imageName
     # this command compiles and builds the container image
-    imageName = os.path.join('dkpro', className.lower())
+    imageName = '_'.join(['dkpro', className.lower()])
     
     path = os.path.join(CWD, DKR)
     commandBuilding = ['docker', 'image','build', '-t', imageName, path]
