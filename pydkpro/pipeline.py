@@ -107,7 +107,6 @@ class Pipeline(object):
         body = json.dumps({'text': str(text)})
         r = requests.post('http://localhost:3000/analysis', headers=headers, data=body, verify=False)
         response = r.content
-
         cs = Cas(xmi_string=response.decode('utf-8'))
         return cs
 

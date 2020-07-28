@@ -12,6 +12,9 @@ from distutils.dir_util import copy_tree
 
 CWD = os.path.abspath(os.path.join('..', 'pydkpro'))
 
+AVAIL_DEPENDENCY = []
+
+
 def postShellCommand(command):
     process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
     out = process.communicate()
@@ -73,11 +76,9 @@ def writeFileAfterLineIdentifier(filePath, content, identifier):
         filetowrite.close()
 
 
-
-
-
 def addMavenDependencyToServer(path_to_pom, groupId, artifactId, version):
-    # TODO Check for duplicates
+    if str(groupId) + ':' + str(artifactId) + ':' + str(version) in AVAIL_DEPENDENCY:
+        return
 
     line_identifier = '@DKPRO component dependecies generation is starting this line'
 
@@ -88,7 +89,7 @@ def addMavenDependencyToServer(path_to_pom, groupId, artifactId, version):
         '\t\t\t<version>' + version + '</version>\n'
                                       '\t\t</dependency>\n'
     ]
-
+    AVAIL_DEPENDENCY.append(str(groupId) + ':' + str(artifactId) + ':' + str(version))
     writeFileAfterLineIdentifier(path_to_pom, maven_dependency_to_add, line_identifier)
 
 def findFilePath(name, path):
@@ -184,7 +185,7 @@ def build_pipeline(required_pipeline):
     if os.path.exists(pipeline_path):
         add_permission(pipeline_path)
         shutil.rmtree(pipeline_path)
-    postShellCommand(['mkdir', pipeline_path])
+    os.makedirs(pipeline_path)
     copytree(boilerplate_path, pipeline_path)
     path_to_dkpro_endpoint = os.path.join(CWD, os.path.join('pipelines', 'src', 'main', 'java', 'example',
                                                             'DKProPipeline.java'))

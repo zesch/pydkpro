@@ -35,12 +35,14 @@ def findDirPath(name, path):
 
 
 def postShellCommand(command):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
+    # TODO: please check for windows whether shell= False is working there
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=False)
     out = process.communicate()
     return out[0]
 
 def postShellCommandInDirectory(command, destination, origin):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=True)
+    # TODO: please check for windows whether shell= False is working there
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, cwd=destination, shell=False)
     out = process.communicate()
     return out[0]
 
@@ -103,9 +105,9 @@ def writeFileAfterLineIdentifier(filePath, content, identifier):
 # `echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:groupId/text()' | xmllint --shell pom.xml | grep -v /`
 # i don't know how to execute them with subprocess
 
-groupId_cmd = ['mvn', 'help:evaluate', '-Dexpression=project.groupId', '-q', '-DforceStdout']
-artifactId_cmd = ['mvn', 'help:evaluate', '-Dexpression=project.artifactId', '-q', '-DforceStdout'] 
-version_cmd = ['mvn', 'help:evaluate', '-Dexpression=project.version', '-q', '-DforceStdout'] 
+groupId_cmd = ['mvn', 'clean', 'help:evaluate', '-Dexpression=project.groupId', '-q', '-DforceStdout']
+artifactId_cmd = ['mvn', 'clean', 'help:evaluate', '-Dexpression=project.artifactId', '-q', '-DforceStdout']
+version_cmd = ['mvn', 'clean', 'help:evaluate', '-Dexpression=project.version', '-q', '-DforceStdout']
 
 # used global variables
 # project file system path
@@ -164,7 +166,7 @@ def pullServerTemplateInFolder(folderName, origin):
     deployment_path = os.path.join( 'pipelines', 'deployment')
     if os.path.exists(deployment_path):
         shutil.rmtree(deployment_path)
-    postShellCommand(['mkdir', '-p', deployment_path])
+    os.makedirs(deployment_path)
     copytree(os.path.join(CWD, os.path.join('boilerplates', 'myapplication', 'dkpro-deploy-server-template')),
              os.path.join(CWD, os.path.join( 'pipelines','deployment')))
 
@@ -186,16 +188,16 @@ def setupFolders():
     origin = postShellCommand(['pwd'])
     
     # path_destination = origin + '/' + deployment_folder_name 
-    postShellCommand(['mkdir', '-p', deployment_folder_name] )
+    os.makedirs(deployment_folder_name)
 
     # clone server git repository
     pullServerTemplateInFolder(deployment_folder_name, origin)
 
     # copy current analysis files to deployment folder, without the deployment folder
     analysis_folder_name = os.path.join(CWD, os.path.join('pipelines', 'deployment', 'pipeline'))
-    postShellCommand(['mkdir', '-p', analysis_folder_name] )
+    os.makedirs(analysis_folder_name)
     copytree(os.path.join(CWD, 'pipelines'), os.path.join(CWD, os.path.join('pipelines', 'deployment', 'pipeline')))
-    postShellCommand(['mkdir', os.path.join(deployment_folder_name,'target' ,'docker')])
+    #os.makedirs(os.path.join(deployment_folder_name,'target' ,'docker'))
 
 def addContainerName():
     print('in container name')
@@ -299,6 +301,8 @@ def buildContainer():
     imageName = '_'.join(['dkpro', className.lower()])
     
     path = os.path.join(CWD, DKR)
+    if not os.path.exists(path):
+        os.makedirs(path)
     commandBuilding = ['docker', 'image','build', '-t', imageName, path]
 
     postShellCommand(commandBuilding) 
@@ -314,6 +318,7 @@ def pushContainertoRegistry():
 def runContainerLocally(background, port):
 
     destination = os.path.join(CWD,DKR)
+
 
     # get paths
     command_fg = ['docker', 'run', '-it', '--rm', '--name', 'dkpro_container',  '-p', port + ':8080', imageName]
@@ -370,7 +375,6 @@ def cliDefinition(port='3000', deploy='local', kill=False, background=True, only
 
     if deploy == 'local': 
         with yaspin( Spinners.pong ,text="Building container...", color="green") as sp:
-
             buildContainer()
 
             sp.ok("✓")
@@ -397,7 +401,7 @@ def cliDefinition(port='3000', deploy='local', kill=False, background=True, only
 def main(port, deploy, kill, background, only, remove, type):
     
     try:
-        cliDefinition(port='local', deploy='3000', kill=False, background=True, only='', remove=True, type='GET')
+        cliDefinition(port='3000', deploy='local', kill=False, background=True, only='', remove=True, type='GET')
 
     except KeyboardInterrupt:
         click.secho('Exiting DKPro Deploy CLI', fg='red')
