@@ -1,6 +1,6 @@
 dkpro-cassis==0.2.7 
 nltk==3.4.5
 spacy==2.2.1
-notebook==6.0.3
+notebook==6.4.1
 click
 yaspin
